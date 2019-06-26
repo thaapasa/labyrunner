@@ -15,7 +15,7 @@ public class JunkochanControl : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		JKCCam = GameObject.Find("JunkochanCam");
+		JKCCam = GameObject.Find("Camera");
 		JKCController = this.GetComponent<CharacterController>();
 		JKCAnim = this.GetComponent<Animator>();
 	}

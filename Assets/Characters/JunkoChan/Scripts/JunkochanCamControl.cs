@@ -7,7 +7,7 @@ public class JunkochanCamControl : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		JKC = GameObject.Find("JunkoChan");//Find the character object
+		JKC = GameObject.Find("Player");//Find the character object
 	}
 	
 	// Update is called once per frame
