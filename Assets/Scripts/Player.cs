@@ -18,32 +18,25 @@ public class Player : MonoBehaviour
 
   private Vector3 moveDirection = Vector3.zero;
 
-  private bool lastGrounded = false;
-
   void Start()
   {
     characterController = GetComponent<CharacterController>();
     animator = GetComponent<Animator>();
-    Debug.Log("Start Player");
   }
 
   void FixedUpdate()
   {
     bool grounded = characterController.isGrounded;
-    if (grounded != lastGrounded) {
-      Debug.Log("Grounded: " + grounded);
-      lastGrounded = grounded;
-    }
     animator.SetBool("Grounded", grounded);
 
     #region ACTION
     if (grounded)
     {
-      if (Input.GetButtonDown("Fire1"))
+      if (Input.GetButtonDown("Fire"))
       {
         animator.SetTrigger("Slash");
       }
-      animator.SetBool("Guard", Input.GetButton("Fire2"));
+      animator.SetBool("Guard", Input.GetButton("Block"));
 
       if (animator.GetCurrentAnimatorStateInfo(1).IsName("Sword_Iai") ||
           animator.GetCurrentAnimatorStateInfo(1).IsName("Sword_Guard") ||
