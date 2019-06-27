@@ -516,7 +516,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wall: {fileID: 1986592439124042005, guid: e4f4c6ca8873bbc4cb93afd4bea261a0, type: 3}
   floor: {fileID: 776397198375427362, guid: ad59a138f0553da4fa7d0465e3fd085a, type: 3}
-  labyrinthSize: 20
+  floorCollider: {fileID: 1056248451}
+  labyrinthSize: 15
+  wallWidth: 4
 --- !u!1 &1056248451
 GameObject:
   m_ObjectHideFlags: 0
@@ -602,8 +604,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1056248451}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 20, y: -0.5, z: 20}
-  m_LocalScale: {x: 50, y: 1, z: 50}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 10, y: 1, z: 10}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
