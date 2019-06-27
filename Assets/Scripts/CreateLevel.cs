@@ -8,7 +8,7 @@ public class CreateLevel : MonoBehaviour
   public GameObject wall;
   public int labyrinthSize = 10;
 
-  private float wallWidth = 2.5f;
+  private float wallWidth = 4f;
   private float wallOffsetY = -2f;
 
   private float wallThickness = 0.2f;
