@@ -516,7 +516,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wall: {fileID: 1986592439124042005, guid: e4f4c6ca8873bbc4cb93afd4bea261a0, type: 3}
   floor: {fileID: 776397198375427362, guid: ad59a138f0553da4fa7d0465e3fd085a, type: 3}
-  labyrinthSize: 10
+  labyrinthSize: 20
 --- !u!1 &1056248451
 GameObject:
   m_ObjectHideFlags: 0
