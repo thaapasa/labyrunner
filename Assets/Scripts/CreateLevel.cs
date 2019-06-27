@@ -11,6 +11,8 @@ public class CreateLevel : MonoBehaviour
   private float wallWidth = 2.5f;
   private float wallOffsetY = -2f;
 
+  private float wallThickness = 0.2f;
+
   private Labyrinth labyrinth;
 
   // Wall to: SOUTH, WEST, NORTH, EAST
@@ -37,11 +39,9 @@ public class CreateLevel : MonoBehaviour
         float ypos = y * wallWidth;
         if (labyrinth.hasWallTo(x, y, WallDirection.SOUTH)) {
           createRoomWall(x, y, WallDirection.SOUTH);
-          createRoomWall(x, y - 1, WallDirection.NORTH);
         }
         if (labyrinth.hasWallTo(x, y, WallDirection.WEST)) {
           createRoomWall(x, y, WallDirection.WEST);
-          createRoomWall(x - 1, y, WallDirection.EAST);
         }
       }
     }
@@ -49,21 +49,16 @@ public class CreateLevel : MonoBehaviour
 
   private void createRoomWall(int x, int y, WallDirection direction) {
     GameObject w = Instantiate(wall);
-    float xpos = x * wallWidth;
+    float xpos = x * (wallWidth + wallThickness);
     float ypos = y * wallWidth;
-    float offs = wallWidth / 2f - 0.05f;
+    float offs = wallWidth / 2f;
+    float thickOffs = wallThickness / 2f;
     switch (direction) {
-      case WallDirection.NORTH:
-        w.transform.position = new Vector3(xpos, wallOffsetY, ypos + offs);
-        break;
-      case WallDirection.EAST:
-        w.transform.position = new Vector3(xpos + offs, wallOffsetY, ypos);
-        break;
       case WallDirection.SOUTH:
-        w.transform.position = new Vector3(xpos, wallOffsetY - 0.01f, ypos - offs);
+        w.transform.position = new Vector3(xpos, wallOffsetY, ypos - offs);
         break;
       case WallDirection.WEST:
-        w.transform.position = new Vector3(xpos - offs, wallOffsetY - 0.01f, ypos);
+        w.transform.position = new Vector3(xpos - offs - thickOffs, wallOffsetY, ypos);
         break;
     }
     w.transform.rotation = Quaternion.LookRotation(directionVectors[(int) direction], Vector3.up);
