@@ -6,6 +6,7 @@ public class CreateLevel : MonoBehaviour
 {
 
   public GameObject wall;
+  public GameObject floor;
   public int labyrinthSize = 10;
 
   private float wallWidth = 4f;
@@ -40,6 +41,7 @@ public class CreateLevel : MonoBehaviour
         if (labyrinth.hasWallTo(x, y, Direction.WEST)) {
           createRoomWall(x, y, Direction.WEST);
         }
+        createRoomFloor(x, y);
       }
     }
   }
@@ -60,4 +62,10 @@ public class CreateLevel : MonoBehaviour
     w.transform.rotation = Quaternion.LookRotation(directionVectors[(int) direction], Vector3.up);
   }
 
+  private void createRoomFloor(int x, int y) {
+    GameObject w = Instantiate(floor);
+    float xpos = x * wallWidth;
+    float ypos = y * wallWidth;
+    w.transform.position = new Vector3(xpos, 0, ypos);
+  }
 }
