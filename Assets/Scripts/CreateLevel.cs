@@ -9,9 +9,7 @@ public class CreateLevel : MonoBehaviour
   public int labyrinthSize = 10;
 
   private float wallWidth = 4f;
-  private float wallOffsetY = -2f;
-
-  private float wallThickness = 0.2f;
+  private float wallOffsetY = -1.6f;
 
   private Labyrinth labyrinth;
 
@@ -28,37 +26,35 @@ public class CreateLevel : MonoBehaviour
   void Start()
   {
     labyrinth = new Labyrinth(labyrinthSize);
-    labyrinth.createWallsAround();
-    labyrinth.createWallsInside();
+    labyrinth.createLabyrinth();
 
-    for (int x = 0; x <= labyrinthSize; x++)
+    for (int x = 0; x <= labyrinth.width; x++)
     {
-      for (int y = 0; y <= labyrinthSize; y++)
+      for (int y = 0; y <= labyrinth.height; y++)
       {
         float xpos = x * wallWidth;
         float ypos = y * wallWidth;
-        if (labyrinth.hasWallTo(x, y, WallDirection.SOUTH)) {
-          createRoomWall(x, y, WallDirection.SOUTH);
+        if (labyrinth.hasWallTo(x, y, Direction.SOUTH)) {
+          createRoomWall(x, y, Direction.SOUTH);
         }
-        if (labyrinth.hasWallTo(x, y, WallDirection.WEST)) {
-          createRoomWall(x, y, WallDirection.WEST);
+        if (labyrinth.hasWallTo(x, y, Direction.WEST)) {
+          createRoomWall(x, y, Direction.WEST);
         }
       }
     }
   }
 
-  private void createRoomWall(int x, int y, WallDirection direction) {
+  private void createRoomWall(int x, int y, Direction direction) {
     GameObject w = Instantiate(wall);
-    float xpos = x * (wallWidth + wallThickness);
+    float xpos = x * wallWidth;
     float ypos = y * wallWidth;
     float offs = wallWidth / 2f;
-    float thickOffs = wallThickness / 2f;
     switch (direction) {
-      case WallDirection.SOUTH:
+      case Direction.SOUTH:
         w.transform.position = new Vector3(xpos, wallOffsetY, ypos - offs);
         break;
-      case WallDirection.WEST:
-        w.transform.position = new Vector3(xpos - offs - thickOffs, wallOffsetY, ypos);
+      case Direction.WEST:
+        w.transform.position = new Vector3(xpos - offs, wallOffsetY, ypos);
         break;
     }
     w.transform.rotation = Quaternion.LookRotation(directionVectors[(int) direction], Vector3.up);
