@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 7b621f3d20f81af4785f8576da7910e2, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.34921145, g: 0.44805855, b: 0.58788157, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -517,7 +517,7 @@ MonoBehaviour:
   wall: {fileID: 1986592439124042005, guid: e4f4c6ca8873bbc4cb93afd4bea261a0, type: 3}
   floor: {fileID: 776397198375427362, guid: ad59a138f0553da4fa7d0465e3fd085a, type: 3}
   floorCollider: {fileID: 1056248451}
-  labyrinthSize: 15
+  labyrinthSize: 30
   wallWidth: 4
 --- !u!1 &1056248451
 GameObject:

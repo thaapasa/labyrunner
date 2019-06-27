@@ -16,3 +16,11 @@ Labyrinth floor and ceilings are imported from the free version of
 [Dark Fantasy Kit](https://assetstore.unity.com/packages/3d/environments/fantasy/dark-fantasy-kit-free-127925).
 
 - Publisher [Runemark Studio](https://runemarkstudio.com/)
+
+## Sky
+
+Skybox material is taken from the free
+[Wispy Skybox](https://assetstore.unity.com/packages/2d/textures-materials/sky/wispy-skybox-21737)
+asset from Unity Asset Store.
+
+- Publisher [Mundus](http://newmundus.com/)
