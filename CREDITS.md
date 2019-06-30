@@ -24,3 +24,11 @@ Skybox material is taken from the free
 asset from Unity Asset Store.
 
 - Publisher [Mundus](http://newmundus.com/)
+
+## Items
+
+Treasure chest is the free
+[Old Chest](https://assetstore.unity.com/packages/3d/props/old-chest-64374)
+asset from Unity Asset store.
+
+- Publisher [Dvornik 63](https://www.behance.net/dvornik63e877)
