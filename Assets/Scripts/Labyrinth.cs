@@ -15,10 +15,10 @@ public class Labyrinth
 
   private Random random = new Random();
 
-  public Labyrinth(int size)
+  public Labyrinth(int width, int height)
   {
-    this.width = size;
-    this.height = size;
+    this.width = width;
+    this.height = height;
     int wXSize = width + 1;
     int wYSize = height + 1;
     this.walls = new bool[wXSize][][];
@@ -47,12 +47,12 @@ public class Labyrinth
     for (int x = 0; x < width; ++x)
     {
       this.walls[x][0][0] = true;
-      this.walls[x][width][0] = true;
+      this.walls[x][height][0] = true;
     }
     for (int y = 0; y < height; ++y)
     {
       this.walls[0][y][1] = true;
-      this.walls[height][y][1] = true;
+      this.walls[width][y][1] = true;
     }
   }
 

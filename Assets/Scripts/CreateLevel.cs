@@ -8,7 +8,8 @@ public class CreateLevel : MonoBehaviour
   public GameObject wall;
   public GameObject floor;
   public GameObject floorCollider;
-  public int labyrinthSize = 10;
+  public int labyrinthWidth = 25;
+  public int labyrinthHeight = 10;
 
   public float wallWidth = 4f;
   private float wallOffsetY = -1.6f;
@@ -31,12 +32,14 @@ public class CreateLevel : MonoBehaviour
   // Start is called before the first frame update
   void Start()
   {
-    float floorSize = (labyrinthSize + safeZone * 2) * wallWidth;
-    floorCollider.transform.localScale = new Vector3(floorSize, 1, floorSize);
-    float colliderOffs = floorSize / 2 - safeZone * wallWidth;
-    floorCollider.transform.position = new Vector3(colliderOffs, -0.5f, colliderOffs);
+    float floorWidth = (labyrinthWidth + safeZone * 2) * wallWidth;
+    float floorHeight = (labyrinthHeight + safeZone * 2) * wallWidth;
+    floorCollider.transform.localScale = new Vector3(floorWidth, 1, floorHeight);
+    float colliderOffsX = floorWidth / 2 - safeZone * wallWidth;
+    float colliderOffsY = floorHeight / 2 - safeZone * wallWidth;
+    floorCollider.transform.position = new Vector3(colliderOffsX, -0.5f, colliderOffsY);
 
-    labyrinth = new Labyrinth(labyrinthSize);
+    labyrinth = new Labyrinth(labyrinthWidth, labyrinthHeight);
     labyrinth.createLabyrinth();
 
     levelOffset = new Vector3(2 * wallWidth, 0, 0);
@@ -51,13 +54,13 @@ public class CreateLevel : MonoBehaviour
     createRoomWall(-2, 0, Direction.WEST);
 
     // Ending zone
-    createRoomFloor(labyrinthSize, labyrinthSize - 1);
-    createRoomWall(labyrinthSize, labyrinthSize - 1, Direction.SOUTH);
-    createRoomWall(labyrinthSize, labyrinthSize, Direction.SOUTH);
-    createRoomFloor(labyrinthSize + 1, labyrinthSize - 1);
-    createRoomWall(labyrinthSize + 1, labyrinthSize - 1, Direction.SOUTH);
-    createRoomWall(labyrinthSize + 1, labyrinthSize, Direction.SOUTH);
-    createRoomWall(labyrinthSize + 2, labyrinthSize - 1, Direction.WEST);
+    createRoomFloor(labyrinthWidth, labyrinthHeight - 1);
+    createRoomWall(labyrinthWidth, labyrinthHeight - 1, Direction.SOUTH);
+    createRoomWall(labyrinthWidth, labyrinthHeight, Direction.SOUTH);
+    createRoomFloor(labyrinthWidth + 1, labyrinthHeight - 1);
+    createRoomWall(labyrinthWidth + 1, labyrinthHeight - 1, Direction.SOUTH);
+    createRoomWall(labyrinthWidth + 1, labyrinthHeight, Direction.SOUTH);
+    createRoomWall(labyrinthWidth + 2, labyrinthHeight - 1, Direction.WEST);
 
     for (int x = 0; x <= labyrinth.width; x++)
     {
@@ -71,7 +74,7 @@ public class CreateLevel : MonoBehaviour
         }
         if (labyrinth.hasWallTo(x, y, Direction.WEST))
         {
-          if ((x != 0 || y != 0) && (x != labyrinthSize || y != labyrinthSize - 1)) {
+          if ((x != 0 || y != 0) && (x != labyrinthWidth || y != labyrinthHeight - 1)) {
             createRoomWall(x, y, Direction.WEST);
           }
         }
