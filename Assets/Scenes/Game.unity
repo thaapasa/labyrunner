@@ -592,15 +592,30 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1228598766728878154, guid: 9e7cb5e6bdb4b4b6bb08af4c30b24d78,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1228598766728878154, guid: 9e7cb5e6bdb4b4b6bb08af4c30b24d78,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1228598766728878154, guid: 9e7cb5e6bdb4b4b6bb08af4c30b24d78,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 1228598766736490846, guid: 9e7cb5e6bdb4b4b6bb08af4c30b24d78,
         type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 6c7c52101fda1cf4d8eb5a7ee7789202, type: 2}
+      objectReference: {fileID: 9100000, guid: 70814ed547827471296c088d2578c833, type: 2}
     - target: {fileID: 1228598766736490846, guid: 9e7cb5e6bdb4b4b6bb08af4c30b24d78,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1228598766729026867, guid: 9e7cb5e6bdb4b4b6bb08af4c30b24d78,
         type: 3}
@@ -731,3 +746,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6e5b7bc8298b4ba99ef3d2be145160c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canClose: 0

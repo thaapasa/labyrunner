@@ -5,9 +5,38 @@ using UnityEngine;
 public class Chest : MonoBehaviour
 {
 
-    private void OnTriggerEnter(Collider other)
+  public bool canClose = true;
+
+  private bool open = false;
+
+  private Animator animator;
+
+  private void Start()
+  {
+    animator = GetComponent<Animator>();
+  }
+
+  private void OnTriggerEnter(Collider other)
+  {
+    if (other.gameObject.name == "Player")
     {
-        Debug.Log("entered " + other.gameObject.name);
+      ToggleChest();
     }
+  }
+
+  private void ToggleChest()
+  {
+    if (open && canClose)
+    {
+      Debug.Log("Closing chest");
+      open = false;
+    }
+    else
+    {
+      Debug.Log("Opening chest");
+      open = true;
+    }
+    animator.SetBool("Open", open);
+  }
 
 }
