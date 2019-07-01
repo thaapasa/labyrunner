@@ -42,16 +42,7 @@ public class CreateLevel : MonoBehaviour
     labyrinth = new Labyrinth(labyrinthWidth, labyrinthHeight);
     labyrinth.createLabyrinth();
 
-    levelOffset = new Vector3(2 * wallWidth, 0, 0);
-
-    // Starting zone
-    createRoomFloor(-1, 0);
-    createRoomWall(-1, 0, Direction.SOUTH);
-    createRoomWall(-1, 1, Direction.SOUTH);
-    createRoomFloor(-2, 0);
-    createRoomWall(-2, 0, Direction.SOUTH);
-    createRoomWall(-2, 1, Direction.SOUTH);
-    createRoomWall(-2, 0, Direction.WEST);
+    levelOffset = new Vector3(2 * wallWidth, 0, wallWidth);
 
     // Ending zone
     createRoomFloor(labyrinthWidth, labyrinthHeight - 1);
