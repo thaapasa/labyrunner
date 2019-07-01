@@ -966,6 +966,8 @@ MonoBehaviour:
   wall: {fileID: 1986592439124042005, guid: e4f4c6ca8873bbc4cb93afd4bea261a0, type: 3}
   floor: {fileID: 776397198375427362, guid: ad59a138f0553da4fa7d0465e3fd085a, type: 3}
   floorCollider: {fileID: 1056248451}
+  endingArea: {fileID: 5255666350948689128, guid: beb6b72cff72b4637aea93c2ac30ed80,
+    type: 3}
   labyrinthWidth: 11
   labyrinthHeight: 6
   wallWidth: 4
