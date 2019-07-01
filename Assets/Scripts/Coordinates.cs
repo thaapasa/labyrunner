@@ -6,6 +6,21 @@ public enum Direction
   EAST = 3
 }
 
+public class DirectionHelper
+{
+  public static string name(Direction dir)
+  {
+    switch (dir)
+    {
+      case Direction.SOUTH: return "south";
+      case Direction.NORTH: return "north";
+      case Direction.EAST: return "east";
+      case Direction.WEST: return "west";
+      default: return "?";
+    }
+  }
+}
+
 public struct Coordinates
 {
   public readonly int x;
