@@ -9,6 +9,7 @@ public class CreateLevel : MonoBehaviour
   public GameObject floor;
   public GameObject floorCollider;
   public GameObject endingArea;
+  public GameObject ghost;
   public int labyrinthWidth = 25;
   public int labyrinthHeight = 10;
 
@@ -36,9 +37,9 @@ public class CreateLevel : MonoBehaviour
     return new Coordinates((int)(p.x + 0.5), (int)(p.z + 0.5));
   }
 
-  public Vector3 toGamePosition(Coordinates labPos)
+  public Vector3 toGamePosition(int x, int y)
   {
-    Vector3 p = new Vector3(labPos.x, 0, labPos.y);
+    Vector3 p = new Vector3(x, 0, y);
     return p * wallWidth + levelOffset;
   }
 
@@ -79,6 +80,18 @@ public class CreateLevel : MonoBehaviour
           createRoomFloor(x, y);
         }
       }
+    }
+
+    createGhosts((int)(labyrinthWidth / 1.5));
+  }
+
+  private void createGhosts(int amount)
+  {
+    for (int i = 0; i < amount; ++i) {
+      GameObject g = Instantiate(ghost);
+      int x = Random.Range(0, labyrinth.width);
+      int y = Random.Range(0, labyrinth.height);
+      g.transform.position = toGamePosition(x, y);
     }
   }
 

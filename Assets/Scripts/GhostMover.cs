@@ -23,6 +23,7 @@ public class GhostMover : MonoBehaviour
   // Start is called before the first frame update
   void Start()
   {
+    level = GameObject.Find("Level");
     levelScript = level.gameObject.GetComponent<CreateLevel>();
   }
 
