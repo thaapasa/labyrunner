@@ -167,6 +167,7 @@ GameObject:
   - component: {fileID: 7031180666905594270}
   - component: {fileID: 7031180666905594271}
   - component: {fileID: 7031180666905594268}
+  - component: {fileID: 2644103162933140257}
   m_Layer: 0
   m_Name: GhostWrapper
   m_TagString: Untagged
@@ -241,6 +242,21 @@ SpringJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &2644103162933140257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7031180666905594266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34d58d17ecdad42e4ad5b68fef97d6ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deathEffect: {fileID: 7159994927105714308, guid: b6395466e5c194eb3bc5cf3747da141f,
+    type: 3}
+  deathEffectDurationSeconds: 2
 --- !u!1 &7031180666953177876
 GameObject:
   m_ObjectHideFlags: 0

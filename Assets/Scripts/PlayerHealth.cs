@@ -22,23 +22,12 @@ public class PlayerHealth : MonoBehaviour
     updateUIIcons();
   }
 
-  // Update is called once per frame
-  void Update()
+  public void damagePlayer()
   {
-  }
-
-  private void OnTriggerEnter(Collider other)
-  {
-    if (other.gameObject.name == "GhostWrapper")
+    if (health > 0)
     {
-      Debug.Log("Collision with ghost");
-      if (health > 0)
-      {
-        health--;
-        updateUIIcons();
-      }
-
-      Destroy(other.gameObject);
+      health--;
+      updateUIIcons();
     }
   }
 
