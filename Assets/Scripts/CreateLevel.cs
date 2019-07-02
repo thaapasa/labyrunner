@@ -17,7 +17,7 @@ public class CreateLevel : MonoBehaviour
 
   private int safeZone = 4;
 
-  private Labyrinth labyrinth;
+  public Labyrinth labyrinth;
 
   private Vector3 levelOffset;
 
@@ -30,6 +30,18 @@ public class CreateLevel : MonoBehaviour
     new Vector3(-1, 0, 0)
   };
 
+  public Coordinates toLabyrinthPosition(Vector3 gamePos)
+  {
+    Vector3 p = (gamePos - levelOffset) / wallWidth;
+    return new Coordinates((int)(p.x + 0.5), (int)(p.z + 0.5));
+  }
+
+  public Vector3 toGamePosition(Coordinates labPos)
+  {
+    Vector3 p = new Vector3(labPos.x, 0, labPos.y);
+    return p * wallWidth + levelOffset;
+  }
+
   // Start is called before the first frame update
   void Start()
   {
@@ -41,7 +53,6 @@ public class CreateLevel : MonoBehaviour
     floorCollider.transform.position = new Vector3(colliderOffsX, -0.5f, colliderOffsY);
 
     labyrinth = new Labyrinth(labyrinthWidth, labyrinthHeight);
-    labyrinth.createLabyrinth();
 
     levelOffset = new Vector3(2 * wallWidth, 0, wallWidth);
 
@@ -52,8 +63,6 @@ public class CreateLevel : MonoBehaviour
     {
       for (int y = 0; y <= labyrinth.height; y++)
       {
-        float xpos = x * wallWidth;
-        float ypos = y * wallWidth;
         if (labyrinth.hasWallTo(x, y, Direction.SOUTH))
         {
           createRoomWall(x, y, Direction.SOUTH);

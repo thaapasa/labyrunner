@@ -6,9 +6,12 @@ public class GhostMover : MonoBehaviour
 {
   public float wallWidth = 4.0f;
   public float speed = 1.0f;
+  public GameObject level;
 
-  private Direction direction;
+  private Direction direction = Direction.NORTH;
   private float moveLeft;
+
+  private CreateLevel levelScript;
 
   private Vector3[] moveVectors = new Vector3[] {
         new Vector3(0, 0, -1),
@@ -20,30 +23,62 @@ public class GhostMover : MonoBehaviour
   // Start is called before the first frame update
   void Start()
   {
-    newTarget();
+    levelScript = level.gameObject.GetComponent<CreateLevel>();
   }
 
   private void newTarget()
   {
-    direction = selectNewDirection();
+    Labyrinth lab = levelScript.labyrinth;
+    if (lab == null || !lab.initialized)
+    {
+      return;
+    }
+
+    Coordinates pos = levelScript.toLabyrinthPosition(transform.position);
+    // Debug.Log("Ghost is now at " + pos);
+    if (!lab.inRange(pos.x, pos.y))
+    {
+      // Debug.Log("Ghost is outside labyrinth, cannot move!");
+      return;
+    }
+
+    direction = selectNewDirection(lab, pos, direction);
     moveLeft = wallWidth;
-    Debug.Log("Ghost moves " + DirectionHelper.name(direction));
+    // Debug.Log("Ghost moves " + direction);
   }
 
-  private Direction selectNewDirection()
+  private Direction selectNewDirection(Labyrinth lab, Coordinates pos, Direction dir)
   {
-    int next = Random.Range(0, 4);
-    switch (next)
-    {
-      case 0: return Direction.NORTH;
-      case 1: return Direction.SOUTH;
-      case 2: return Direction.EAST;
-      default: return Direction.WEST;
+    Direction right = DirectionHelper.turnRight(dir);
+    if (!lab.hasWallTo(pos.x, pos.y, right)) {
+      return right;
     }
+    // Debug.Log("Could not turn right from " + pos + " towards " + right);
+    if (!lab.hasWallTo(pos.x, pos.y, dir)) {
+      return dir;
+    }
+    // Debug.Log("Could not move straight from " + pos + " towards " + dir);
+    Direction left = DirectionHelper.turnLeft(dir);
+    if (!lab.hasWallTo(pos.x, pos.y, left)) {
+      return left;
+    }
+    // Debug.Log("Could not turn left from " + pos + " towards " + left);
+    dir = DirectionHelper.turnRight(right);
+    // Debug.Log("Returning towards " + dir + ", wall: " + lab.hasWallTo(pos.x, pos.y, dir));
+    return dir;
   }
 
   void FixedUpdate()
   {
+    if (moveLeft <= 0)
+    {
+      newTarget();
+      if (moveLeft <= 0)
+      {
+        return;
+      }
+    }
+
     float moveNow = speed * Time.fixedDeltaTime;
     if (moveNow > moveLeft)
     {
@@ -53,9 +88,5 @@ public class GhostMover : MonoBehaviour
     transform.position = transform.position + moveVectors[(int)direction] * moveNow;
     moveLeft -= moveNow;
 
-    if (moveLeft <= 0)
-    {
-      newTarget();
-    }
   }
 }

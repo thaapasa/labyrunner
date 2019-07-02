@@ -19,7 +19,7 @@ class LabyrinthCreator
 
   public void createLabyrinth()
   {
-    int numRooms = width * height;
+    int numRooms = (width + 1) * (height + 1);
     int[] rooms = new int[numRooms];
     for (int i = 0; i < rooms.Length; ++i) { rooms[i] = -1; }
     // A bit too much, but so what
@@ -90,7 +90,7 @@ class LabyrinthCreator
   private int[] shuffle(int[] arr)
   {
     // Fisher-Yates shuffle
-    for (int i = arr.Length - 1; i >= 1; i--)
+    for (int i = arr.Length - 1; i >= 0; i--)
     {
       swap(arr, i, random.Next(i + 1));
     }

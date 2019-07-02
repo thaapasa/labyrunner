@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class Labyrinth
 {
@@ -12,11 +13,11 @@ public class Labyrinth
   // wall[x][y][1] = wall to west from room x, y
   // wall x, y indexes are from 0 to size
   private bool[][][] walls;
-
-  private Random random = new Random();
+  public bool initialized = false;
 
   public Labyrinth(int width, int height)
   {
+    // Debug.Log("Creating labyrinth of size " + width + "x" + height);
     this.width = width;
     this.height = height;
     int wXSize = width + 1;
@@ -32,14 +33,30 @@ public class Labyrinth
         this.walls[x][y][1] = false;
       }
     }
+    createLabyrinth();
   }
 
-  public void createLabyrinth()
+  private void createLabyrinth()
   {
     createWallsAround();
     createWallsInside();
     LabyrinthCreator l = new LabyrinthCreator(width, height, setWallTo);
     l.createLabyrinth();
+    initialized = true;
+    /*
+    roomInfo(0, 0);
+    roomInfo(0, 1);
+    roomInfo(0, 2);
+    roomInfo(1, 0);
+    roomInfo(2, 0);
+    roomInfo(1, 1);
+    roomInfo(2, 2);
+    */
+  }
+
+  public bool inRange(int x, int y)
+  {
+    return x >= 0 && x < width && y >= 0 && y < height;
   }
 
   private void createWallsAround()
@@ -72,12 +89,12 @@ public class Labyrinth
   {
     if (dir == Direction.NORTH)
     {
-      x = x + 1;
+      y = y + 1;
       dir = Direction.SOUTH;
     }
     else if (dir == Direction.EAST)
     {
-      y = y + 1;
+      x = x + 1;
       dir = Direction.WEST;
     }
     if (x < 0 || y < 0 || x > width || y > height)
@@ -91,12 +108,12 @@ public class Labyrinth
   {
     if (dir == Direction.NORTH)
     {
-      x = x + 1;
+      y = y + 1;
       dir = Direction.SOUTH;
     }
     else if (dir == Direction.EAST)
     {
-      y = y + 1;
+      x = x + 1;
       dir = Direction.WEST;
     }
     if (x < 0 || y < 0 || x > width || y > height)
@@ -104,6 +121,16 @@ public class Labyrinth
       return;
     }
     walls[x][y][dir == Direction.SOUTH ? 0 : 1] = state;
+  }
+
+  public void roomInfo(int x, int y) {
+    Debug.Log(
+      "Room at " + x + "," + y +
+      ": [N: " + hasWallTo(x, y, Direction.NORTH) +
+      ", E: " + hasWallTo(x, y, Direction.EAST) +
+      ", S: " + hasWallTo(x, y, Direction.SOUTH) +
+      ", W: " + hasWallTo(x, y, Direction.WEST) + "]"
+    );
   }
 
 }

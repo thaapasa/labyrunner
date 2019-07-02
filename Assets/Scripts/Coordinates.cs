@@ -8,15 +8,25 @@ public enum Direction
 
 public class DirectionHelper
 {
-  public static string name(Direction dir)
-  {
+  public static Direction turnRight(Direction dir) {
     switch (dir)
     {
-      case Direction.SOUTH: return "south";
-      case Direction.NORTH: return "north";
-      case Direction.EAST: return "east";
-      case Direction.WEST: return "west";
-      default: return "?";
+      case Direction.SOUTH: return Direction.WEST;
+      case Direction.NORTH: return Direction.EAST;
+      case Direction.EAST: return Direction.SOUTH;
+      case Direction.WEST: return Direction.NORTH;
+      default: return Direction.NORTH;
+    }
+  }
+  
+  public static Direction turnLeft(Direction dir) {
+    switch (dir)
+    {
+      case Direction.SOUTH: return Direction.EAST;
+      case Direction.NORTH: return Direction.WEST;
+      case Direction.EAST: return Direction.NORTH;
+      case Direction.WEST: return Direction.SOUTH;
+      default: return Direction.NORTH;
     }
   }
 }
@@ -53,6 +63,10 @@ public struct Coordinates
       case Direction.WEST: return new Coordinates(x - 1, y);
     }
     return this;
+  }
+
+  public override string ToString() {
+    return x + "," + y;
   }
 }
 
