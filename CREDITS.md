@@ -33,11 +33,21 @@ asset from Unity Asset store.
 
 - Publisher [Dvornik 63](https://www.behance.net/dvornik63e877)
 
-TODO:
-Add pumpkin
+Ghost pumpkin is taken from
+[Free Cartoon Halloween Pack](https://assetstore.unity.com/packages/3d/free-cartoon-halloween-pack-45896)
+from Unity Asset Store.
+
+- Publisher [Lumo-Art 3d](https://twitter.com/LumoArt3D)
 
 ## UI
 
-Heart:
+Heart icon by [SmashIcons](https://www.flaticon.com/authors/smashicons)
+from [Flaticon](https://www.flaticon.com/) is licensed by 
+[Creative Commons BY 3.0](http://creativecommons.org/licenses/by/3.0/).
 
-Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/"                 title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/"                 title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a>
+## Effects
+
+Pumpkin explosion is taken from the
+[Unity Particle Pack](https://assetstore.unity.com/packages/essentials/tutorial-projects/unity-particle-pack-127325).
+
+- Publisher [Unity](https://unity.com/)
