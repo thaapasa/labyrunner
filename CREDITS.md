@@ -17,6 +17,12 @@ Labyrinth floor and ceilings are imported from the free version of
 
 - Publisher [Runemark Studio](https://runemarkstudio.com/)
 
+Mausoleum asset taken from the free
+[Make Your Fantasy Game - Lite](https://assetstore.unity.com/packages/3d/environments/fantasy/make-your-fantasy-game-lite-8312)
+pack from Unity Asset Store.
+
+- Publisher [xiaolianhuastudio](https://connect.unity.com/u/xiaolianhuastudio)
+
 ## Sky
 
 Skybox material is taken from the free
