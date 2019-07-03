@@ -950,8 +950,8 @@ MonoBehaviour:
   healthPotion: {fileID: 1374968899414559738, guid: d5b7e2523b62740aaba4464a33b4d6c6,
     type: 3}
   gem: {fileID: 6786811928426134700, guid: 7886bf56e85554fca80268d6f56e636b, type: 3}
-  labyrinthWidth: 11
-  labyrinthHeight: 6
+  labyrinthWidth: 12
+  labyrinthHeight: 8
   wallWidth: 4
 --- !u!4 &985235193 stripped
 Transform:
