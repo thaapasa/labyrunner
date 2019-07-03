@@ -12,6 +12,12 @@ public class CreateLevel : MonoBehaviour
   public GameObject ghost;
   public GameObject healthPotion;
   public GameObject gem;
+  public GameObject chest;
+
+  public float ghostProbability = 0.07f;
+  public float gemProbability = 0.21f;
+  public float healthProbability = 0.03f;
+  public float chestProbability = 0.01f;
 
   public int labyrinthWidth = 25;
   public int labyrinthHeight = 10;
@@ -61,7 +67,11 @@ public class CreateLevel : MonoBehaviour
     levelOffset = new Vector3(2 * wallWidth, 0, wallWidth);
 
     GameObject ending = Instantiate(endingArea);
-    ending.transform.position = levelOffset + new Vector3(labyrinthWidth * wallWidth, 0, (labyrinthHeight - 1) * wallWidth);
+    ending.transform.position = levelOffset + new Vector3(
+      labyrinthWidth * wallWidth,
+      0,
+      (labyrinthHeight - 1) * wallWidth
+    );
 
     for (int x = 0; x <= labyrinth.width; x++)
     {
@@ -85,41 +95,80 @@ public class CreateLevel : MonoBehaviour
       }
     }
 
-    createGhosts((int)(labyrinthWidth / 1.5));
-    createHealthPotions((int)(labyrinthWidth / 2));
-    createGems((int)(labyrinthWidth * 2.5));
+    createItems();
   }
 
-  private void createGhosts(int amount)
+  private void createItems()
   {
-    for (int i = 0; i < amount; ++i) {
-      GameObject g = Instantiate(ghost);
-      int x = Random.Range(0, labyrinth.width);
-      int y = Random.Range(0, labyrinth.height);
-      g.transform.position = toGamePosition(x, y, 0.3f);
+    for (int x = 0; x < labyrinthWidth; ++x)
+    {
+      for (int y = 0; y < labyrinthHeight; ++y)
+      {
+        float r = Random.Range(0f, 1f);
+        if (r < ghostProbability)
+        {
+          createGhost(x, y);
+          continue;
+        }
+        r -= ghostProbability;
+        if (r < gemProbability)
+        {
+          createGem(x, y);
+          continue;
+        }
+        r -= gemProbability;
+        if (r < chestProbability)
+        {
+          createChest(x, y);
+          continue;
+        }
+        r -= chestProbability;
+        if (r < healthProbability)
+        {
+          createHealthPotion(x, y);
+          continue;
+        }
+        r -= healthProbability;
+      }
     }
   }
 
-  private void createHealthPotions(int amount)
+  private void createGhost(int x, int y)
   {
-    for (int i = 0; i < amount; ++i) {
-      GameObject g = Instantiate(healthPotion);
-      int x = Random.Range(0, labyrinth.width);
-      int y = Random.Range(0, labyrinth.height);
-      g.transform.position = toGamePosition(x, y, 0.2f);
-    }
+    GameObject g = Instantiate(ghost);
+    g.transform.position = toGamePosition(x, y, 0.3f);
   }
 
-  private void createGems(int amount)
+  private void createHealthPotion(int x, int y)
   {
-    for (int i = 0; i < amount; ++i) {
-      GameObject g = Instantiate(gem);
-      int x = Random.Range(0, labyrinth.width);
-      int y = Random.Range(0, labyrinth.height);
-      g.transform.position = toGamePosition(x, y, 0.3f);
-    }
+    GameObject g = Instantiate(healthPotion);
+    g.transform.position = toGamePosition(x, y, 0.2f);
   }
 
+  private void createGem(int x, int y)
+  {
+    GameObject g = Instantiate(gem);
+    g.transform.position = toGamePosition(x, y, 0.26f);
+  }
+
+  private void createChest(int x, int y)
+  {
+    if (labyrinth.hasWallTo(x, y, Direction.NORTH))
+    {
+      GameObject g = Instantiate(chest);
+      g.transform.position = toGamePosition(x, y) + new Vector3(0, 0, 1.25f);
+      g.transform.Rotate(0, 90, 0);
+    }
+    else if (labyrinth.hasWallTo(x, y, Direction.EAST) && x != labyrinth.width - 1 && y != labyrinth.height - 1) {
+      GameObject g = Instantiate(chest);
+      g.transform.position = toGamePosition(x, y) + new Vector3(1.25f, 0, 0);
+      g.transform.Rotate(0, 180, 0);
+    }
+    else if (labyrinth.hasWallTo(x, y, Direction.WEST) && x != 0 && y != 0) {
+      GameObject g = Instantiate(chest);
+      g.transform.position = toGamePosition(x, y) + new Vector3(-1.25f, 0, 0);
+    }
+  }
 
 
   private void createRoomWall(int x, int y, Direction direction)
