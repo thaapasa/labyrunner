@@ -10,6 +10,7 @@ public class CreateLevel : MonoBehaviour
   public GameObject floorCollider;
   public GameObject endingArea;
   public GameObject ghost;
+  public GameObject healthPotion;
   public int labyrinthWidth = 25;
   public int labyrinthHeight = 10;
 
@@ -37,9 +38,9 @@ public class CreateLevel : MonoBehaviour
     return new Coordinates((int)(p.x + 0.5), (int)(p.z + 0.5));
   }
 
-  public Vector3 toGamePosition(int x, int y)
+  public Vector3 toGamePosition(int x, int y, float gameYPos = 0f)
   {
-    Vector3 p = new Vector3(x, 0, y);
+    Vector3 p = new Vector3(x, gameYPos, y);
     return p * wallWidth + levelOffset;
   }
 
@@ -83,6 +84,7 @@ public class CreateLevel : MonoBehaviour
     }
 
     createGhosts((int)(labyrinthWidth / 1.5));
+    createHealthPotions((int)(labyrinthWidth / 2));
   }
 
   private void createGhosts(int amount)
@@ -92,6 +94,16 @@ public class CreateLevel : MonoBehaviour
       int x = Random.Range(0, labyrinth.width);
       int y = Random.Range(0, labyrinth.height);
       g.transform.position = toGamePosition(x, y);
+    }
+  }
+
+  private void createHealthPotions(int amount)
+  {
+    for (int i = 0; i < amount; ++i) {
+      GameObject g = Instantiate(healthPotion);
+      int x = Random.Range(0, labyrinth.width);
+      int y = Random.Range(0, labyrinth.height);
+      g.transform.position = toGamePosition(x, y, 0.2f);
     }
   }
 

@@ -31,6 +31,19 @@ public class PlayerHealth : MonoBehaviour
     }
   }
 
+  public bool giveHealth()
+  {
+    if (health < maxHealth)
+    {
+      health++;
+      updateUIIcons();
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
   void updateUIIcons()
   {
     while (healthIcons.Count < health)
