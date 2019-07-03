@@ -885,6 +885,19 @@ MonoBehaviour:
   ui: {fileID: 1885838527}
   healthIcon: {fileID: 8503750715061825615, guid: 717bcfe537a6f44afa6987c14d06057a,
     type: 3}
+--- !u!114 &903192331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 903192326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b3c42af7a31643148c337bfd0fb1d8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreText: {fileID: 1131643896}
 --- !u!1 &914345189
 GameObject:
   m_ObjectHideFlags: 0
@@ -936,6 +949,7 @@ MonoBehaviour:
   ghost: {fileID: 7031180666953177876, guid: 1e66dbf44cf29446297f9b1e86577ab1, type: 3}
   healthPotion: {fileID: 1374968899414559738, guid: d5b7e2523b62740aaba4464a33b4d6c6,
     type: 3}
+  gem: {fileID: 6786811928426134700, guid: 7886bf56e85554fca80268d6f56e636b, type: 3}
   labyrinthWidth: 11
   labyrinthHeight: 6
   wallWidth: 4

@@ -11,6 +11,8 @@ public class CreateLevel : MonoBehaviour
   public GameObject endingArea;
   public GameObject ghost;
   public GameObject healthPotion;
+  public GameObject gem;
+
   public int labyrinthWidth = 25;
   public int labyrinthHeight = 10;
 
@@ -85,6 +87,7 @@ public class CreateLevel : MonoBehaviour
 
     createGhosts((int)(labyrinthWidth / 1.5));
     createHealthPotions((int)(labyrinthWidth / 2));
+    createGems((int)(labyrinthWidth * 2.5));
   }
 
   private void createGhosts(int amount)
@@ -106,6 +109,18 @@ public class CreateLevel : MonoBehaviour
       g.transform.position = toGamePosition(x, y, 0.2f);
     }
   }
+
+  private void createGems(int amount)
+  {
+    for (int i = 0; i < amount; ++i) {
+      GameObject g = Instantiate(gem);
+      int x = Random.Range(0, labyrinth.width);
+      int y = Random.Range(0, labyrinth.height);
+      g.transform.position = toGamePosition(x, y, 0.3f);
+    }
+  }
+
+
 
   private void createRoomWall(int x, int y, Direction direction)
   {
