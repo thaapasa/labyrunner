@@ -20,11 +20,11 @@ public class Chest : MonoBehaviour
   {
     if (other.gameObject.name == "Player")
     {
-      ToggleChest();
+      ToggleChest(other.gameObject);
     }
   }
 
-  private void ToggleChest()
+  private void ToggleChest(GameObject player)
   {
     if (open && canClose)
     {
@@ -35,6 +35,7 @@ public class Chest : MonoBehaviour
     {
       Debug.Log("Opening chest");
       open = true;
+      player.GetComponent<PlayerScore>().addScore(50);
     }
     animator.SetBool("Open", open);
   }

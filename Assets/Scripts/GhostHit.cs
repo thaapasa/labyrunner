@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class GhostHit : MonoBehaviour
 {
-
   public GameObject deathEffect;
+  public GameObject ghostParent;
   public float deathEffectDurationSeconds = 2f;
 
 
@@ -19,7 +19,7 @@ public class GhostHit : MonoBehaviour
       GameObject effect = Instantiate(deathEffect);
       effect.transform.position = gameObject.transform.position;
 
-      Destroy(gameObject);
+      Destroy(ghostParent);
       Destroy(effect, deathEffectDurationSeconds);
     }
   }

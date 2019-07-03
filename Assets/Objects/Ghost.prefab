@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7031180665979454259}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7031180666885844638}
@@ -62,7 +62,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wallWidth: 4
-  speed: 2
+  speed: 4
   level: {fileID: 0}
 --- !u!1 &7031180666885844639
 GameObject:
@@ -75,7 +75,6 @@ GameObject:
   - component: {fileID: 7031180666885844638}
   - component: {fileID: 7031180666885844627}
   - component: {fileID: 7031180666885844624}
-  - component: {fileID: 7031180666885844625}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -142,19 +141,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!135 &7031180666885844625
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7031180666885844639}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7031180666905594266
 GameObject:
   m_ObjectHideFlags: 0
@@ -166,8 +152,8 @@ GameObject:
   - component: {fileID: 7031180666905594269}
   - component: {fileID: 7031180666905594270}
   - component: {fileID: 7031180666905594271}
-  - component: {fileID: 7031180666905594268}
   - component: {fileID: 2644103162933140257}
+  - component: {fileID: 5784727507508816646}
   m_Layer: 0
   m_Name: GhostWrapper
   m_TagString: Untagged
@@ -183,8 +169,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7031180666905594266}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.8, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 1.8}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_Children:
   - {fileID: 7031180667244262198}
   m_Father: {fileID: 7031180666953177879}
@@ -214,34 +200,11 @@ Rigidbody:
   m_Mass: 0.5
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!145 &7031180666905594268
-SpringJoint:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7031180666905594266}
-  m_ConnectedBody: {fileID: 7031180665979454261}
-  m_Anchor: {x: 0, y: 0.45, z: 0}
-  m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0, y: -1.75, z: 0}
-  serializedVersion: 2
-  m_Spring: 50
-  m_Damper: 15
-  m_MinDistance: 0
-  m_MaxDistance: 0
-  m_Tolerance: 0.025
-  m_BreakForce: Infinity
-  m_BreakTorque: Infinity
-  m_EnableCollision: 0
-  m_EnablePreprocessing: 1
-  m_MassScale: 1
-  m_ConnectedMassScale: 1
 --- !u!114 &2644103162933140257
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,7 +219,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deathEffect: {fileID: 7159994927105714308, guid: b6395466e5c194eb3bc5cf3747da141f,
     type: 3}
+  ghostParent: {fileID: 7031180666953177876}
   deathEffectDurationSeconds: 2
+--- !u!114 &5784727507508816646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7031180666905594266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f59d8b7433e5a4dd3919c47e726ee90f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 7031180665979454259}
 --- !u!1 &7031180666953177876
 GameObject:
   m_ObjectHideFlags: 0
@@ -281,7 +258,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7031180666953177876}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8, y: 0.8, z: 4}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7031180665979454258}
@@ -310,7 +287,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 1c11594aafb85e3428638396d6d90b54, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.2
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 1c11594aafb85e3428638396d6d90b54, type: 3}
       propertyPath: m_LocalPosition.z

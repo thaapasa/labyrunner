@@ -96,7 +96,7 @@ public class CreateLevel : MonoBehaviour
       GameObject g = Instantiate(ghost);
       int x = Random.Range(0, labyrinth.width);
       int y = Random.Range(0, labyrinth.height);
-      g.transform.position = toGamePosition(x, y);
+      g.transform.position = toGamePosition(x, y, 0.3f);
     }
   }
 
