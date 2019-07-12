@@ -1,31 +1,77 @@
 fileFormatVersion: 2
 guid: 77dfa86a1f98308419a594804d054bc1
 ModelImporter:
-  serializedVersion: 22
-  fileIDToRecycleName:
-    100000: Candle01
-    100002: Candle02
-    100004: Candle03
-    100006: Candle04
-    100008: //RootNode
-    400000: Candle01
-    400002: Candle02
-    400004: Candle03
-    400006: Candle04
-    400008: //RootNode
-    2100000: Candles
-    2300000: Candle01
-    2300002: Candle02
-    2300004: Candle03
-    2300006: Candle04
-    3300000: Candle01
-    3300002: Candle02
-    3300004: Candle03
-    3300006: Candle04
-    4300000: Candle03
-    4300002: Candle02
-    4300004: Candle01
-    4300006: Candle04
+  serializedVersion: 25
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: Candle01
+  - first:
+      1: 100002
+    second: Candle02
+  - first:
+      1: 100004
+    second: Candle03
+  - first:
+      1: 100006
+    second: Candle04
+  - first:
+      1: 100008
+    second: //RootNode
+  - first:
+      4: 400000
+    second: Candle01
+  - first:
+      4: 400002
+    second: Candle02
+  - first:
+      4: 400004
+    second: Candle03
+  - first:
+      4: 400006
+    second: Candle04
+  - first:
+      4: 400008
+    second: //RootNode
+  - first:
+      21: 2100000
+    second: Candles
+  - first:
+      23: 2300000
+    second: Candle01
+  - first:
+      23: 2300002
+    second: Candle02
+  - first:
+      23: 2300004
+    second: Candle03
+  - first:
+      23: 2300006
+    second: Candle04
+  - first:
+      33: 3300000
+    second: Candle01
+  - first:
+      33: 3300002
+    second: Candle02
+  - first:
+      33: 3300004
+    second: Candle03
+  - first:
+      33: 3300006
+    second: Candle04
+  - first:
+      43: 4300000
+    second: Candle03
+  - first:
+      43: 4300002
+    second: Candle02
+  - first:
+      43: 4300004
+    second: Candle01
+  - first:
+      43: 4300006
+    second: Candle04
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -65,17 +111,21 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
+    useSRGBMaterialColor: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
     swapUVChannels: 0
-    generateSecondaryUV: 0
+    generateSecondaryUV: 1
     useFileUnits: 1
-    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
     preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
@@ -87,10 +137,14 @@ ModelImporter:
     normalImportMode: 0
     tangentImportMode: 3
     normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
   importAnimation: 1
   copyAvatar: 0
   humanDescription:
-    serializedVersion: 2
+    serializedVersion: 3
     human: []
     skeleton: []
     armTwist: 0.5
@@ -100,8 +154,8 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
+    globalScale: 1
     rootMotionBoneName: 
-    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
