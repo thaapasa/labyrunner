@@ -16,8 +16,12 @@ public class TeleportEffect : MonoBehaviour
   int shaderProperty;
 
   public static bool teleporting = false;
+  public static bool settingUp = false;
+
   Vector3 teleportTarget = new Vector3(0, 0, 0);
 
+  public GameObject setupEffect;
+  GameObject currentSetupEffect;
   GameObject player;
   CharacterController controller;
 
@@ -37,6 +41,17 @@ public class TeleportEffect : MonoBehaviour
 
   void Update()
   {
+    if (settingUp) {
+      if (currentSetupEffect == null) {
+        currentSetupEffect = Instantiate(setupEffect);
+        currentSetupEffect.transform.position = player.transform.position;
+      }
+    } else {
+      if (currentSetupEffect != null) {
+        Destroy(currentSetupEffect);
+        currentSetupEffect = null;
+      }
+    }
     if (teleporting) {
       if (solidity == 1) {
         ps.Play();

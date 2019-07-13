@@ -47,6 +47,8 @@ public class PlayerControl : MonoBehaviour
         TeleportEffect.teleporting = false;
       }
 
+      TeleportEffect.settingUp = animator.GetCurrentAnimatorStateInfo(1).IsName("Sword_Guard");
+
       if (animator.GetCurrentAnimatorStateInfo(1).IsName("Sword_Iai") ||
           animator.GetCurrentAnimatorStateInfo(1).IsName("Sword_Guard") ||
           animator.GetCurrentAnimatorStateInfo(1).IsName("Sword_Store"))
