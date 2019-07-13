@@ -73,7 +73,7 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 34978860034301931}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &6970882072438761651
+--- !u!1001 &2560176582253226491
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -83,7 +83,7 @@ PrefabInstance:
     - target: {fileID: 9002911969046031554, guid: d5677f2941d8ffa49a5dc867659c49aa,
         type: 3}
       propertyPath: m_Name
-      value: FireLight (6)
+      value: FireLight
       objectReference: {fileID: 0}
     - target: {fileID: 9002911969046031557, guid: d5677f2941d8ffa49a5dc867659c49aa,
         type: 3}
@@ -93,7 +93,7 @@ PrefabInstance:
     - target: {fileID: 9002911969046031557, guid: d5677f2941d8ffa49a5dc867659c49aa,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.6
+      value: 1.7
       objectReference: {fileID: 0}
     - target: {fileID: 9002911969046031557, guid: d5677f2941d8ffa49a5dc867659c49aa,
         type: 3}
