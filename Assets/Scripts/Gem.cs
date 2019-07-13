@@ -23,7 +23,7 @@ public class Gem : MonoBehaviour
       GameObject effect = Instantiate(gemEffect);
       effect.transform.position = gameObject.transform.position;
 
-      Destroy(gameObject);
+      Destroy(gameObject, 0.04f);
       Destroy(effect, gemEffectDurationSeconds);
     }
   }

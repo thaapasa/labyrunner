@@ -53,8 +53,12 @@ from [Flaticon](https://www.flaticon.com/) is licensed by
 
 ## Effects
 
-Pumpkin explosion is taken from the
-[Unity Particle Pack](https://assetstore.unity.com/packages/essentials/tutorial-projects/unity-particle-pack-127325).
+Several effects have been taken from the
+[Unity Particle Pack](https://assetstore.unity.com/packages/essentials/tutorial-projects/unity-particle-pack-127325):
+
+- Pumpkin explosion
+- Teleportation effect
+- Mist trail on taking gems
 
 - Publisher [Unity](https://unity.com/)
 
