@@ -31,6 +31,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &2007451392670040358
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1228598766729102096}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.3, y: 0.7, z: 1}
+  m_Center: {x: 0.3, y: 0.35, z: 0}
 --- !u!65 &8586398435892792125
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -56,20 +69,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6e5b7bc8298b4ba99ef3d2be145160c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canClose: 1
---- !u!65 &2007451392670040358
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1228598766729102096}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.3, y: 0.7, z: 1}
-  m_Center: {x: 0.3, y: 0.35, z: 0}
+  canClose: 0
 --- !u!1001 &1228598766729026862
 PrefabInstance:
   m_ObjectHideFlags: 0
