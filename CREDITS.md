@@ -67,6 +67,11 @@ from the Unity Asset Store.
 - Publisher [John Leonard French](https://johnleonardfrench.com/)
 
 Ghost explosion sound is taken from the free
-[Grenade Sound FX](https://assetstore.unity.com/packages/audio/sound-fx/grenade-sound-fx-147490).
+[Grenade Sound FX](https://assetstore.unity.com/packages/audio/sound-fx/grenade-sound-fx-147490) asset.
 
 - Publisher [MGW SoundDesign](https://soundcloud.com/valery-oleynikov)
+
+Gem kaching sound is taken from the
+[Achievements SFX FREE](https://assetstore.unity.com/packages/audio/sound-fx/achievement-sfx-free-91639) asset pack.
+
+- Publisher [B.G.M.](https://soundcloud.com/fantasticbgm)

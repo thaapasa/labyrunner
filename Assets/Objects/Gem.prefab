@@ -59,6 +59,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationSpeed: 70
+  gemEffect: {fileID: 9129937782926662801, guid: d5ec1613a8994d345a12d4b6e054dcbc,
+    type: 3}
+  gemEffectDurationSeconds: 2.3
 --- !u!1001 &6786811928076069615
 PrefabInstance:
   m_ObjectHideFlags: 0
