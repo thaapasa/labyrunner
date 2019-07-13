@@ -98,14 +98,15 @@ Shader "Custom/Respawn" {
 			#endif
 
 			fixed4 c = tex2D (_MainTex, IN.uv_MainTex);
-			fixed3 EmissiveCol = c.a * _Emission;
+			// fixed3 EmissiveCol = c.a * _Emission;
 
-			o.Albedo = _Color;
+			o.Albedo = 0;
 			o.Occlusion = tex2D (_AO, IN.uv_MainTex);
-			o.Emission = EmissiveCol + _EdgeColor1 * Edge;
+			o.Emission = (c * _Color).rgb + _EdgeColor1 * Edge;
+			// o.Emission = EmissiveCol + _EdgeColor1 * Edge;
 			o.Normal = UnpackNormal (tex2D (_Normal, IN.uv_MainTex));
 			o.Metallic = MetallicSmooth.r * _Metallic;
-			o.Smoothness = MetallicSmooth.a * _Glossiness;
+			// o.Smoothness = MetallicSmooth.a * _Glossiness;
 			clip(Noise - _cutoff);
 		}
 		ENDCG
