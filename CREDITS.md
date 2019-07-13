@@ -57,3 +57,11 @@ Pumpkin explosion is taken from the
 [Unity Particle Pack](https://assetstore.unity.com/packages/essentials/tutorial-projects/unity-particle-pack-127325).
 
 - Publisher [Unity](https://unity.com/)
+
+## Music
+
+Background music is taken from 
+[The Fantasy Music Collection (STARTER)](https://assetstore.unity.com/packages/audio/music/orchestral/the-fantasy-music-collection-starter-15901)
+from the Unity Asset Store.
+
+- Publisher [John Leonard French](https://johnleonardfrench.com/)
