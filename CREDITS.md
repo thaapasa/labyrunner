@@ -58,10 +58,15 @@ Pumpkin explosion is taken from the
 
 - Publisher [Unity](https://unity.com/)
 
-## Music
+## Audio
 
 Background music is taken from 
 [The Fantasy Music Collection (STARTER)](https://assetstore.unity.com/packages/audio/music/orchestral/the-fantasy-music-collection-starter-15901)
 from the Unity Asset Store.
 
 - Publisher [John Leonard French](https://johnleonardfrench.com/)
+
+Ghost explosion sound is taken from the free
+[Grenade Sound FX](https://assetstore.unity.com/packages/audio/sound-fx/grenade-sound-fx-147490).
+
+- Publisher [MGW SoundDesign](https://soundcloud.com/valery-oleynikov)

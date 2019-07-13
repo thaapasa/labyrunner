@@ -8,7 +8,6 @@ public class GhostHit : MonoBehaviour
   public GameObject ghostParent;
   public float deathEffectDurationSeconds = 2f;
 
-
   private void OnTriggerEnter(Collider other)
   {
     if (other.gameObject.name == "Player")
