@@ -984,10 +984,15 @@ MonoBehaviour:
     type: 3}
   gem: {fileID: 6786811928426134700, guid: 7886bf56e85554fca80268d6f56e636b, type: 3}
   chest: {fileID: 1228598766552397229, guid: 9e7cb5e6bdb4b4b6bb08af4c30b24d78, type: 3}
+  candleholder: {fileID: 34501193841385647, guid: 3419dbd7dfa3047ca9051328b7dca789,
+    type: 3}
+  carpet: {fileID: 6057782278642115506, guid: abed72ed76d324843840228322ffbb2c, type: 3}
   ghostProbability: 0.07
   gemProbability: 0.21
   healthProbability: 0.03
   chestProbability: 0.015
+  candleholderProbability: 0.3
+  carpetProbability: 0.23
   labyrinthWidth: 12
   labyrinthHeight: 8
   wallWidth: 4

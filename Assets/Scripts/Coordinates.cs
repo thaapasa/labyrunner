@@ -6,6 +6,13 @@ public enum Direction
   EAST = 3
 }
 
+public enum Corner {
+  NORTHEAST = 0,
+  SOUTHEAST = 1,
+  SOUTHWEST = 2,
+  NORTHWEST = 3
+}
+
 public class DirectionHelper
 {
   public static Direction turnRight(Direction dir) {

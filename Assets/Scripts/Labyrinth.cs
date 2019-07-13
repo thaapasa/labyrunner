@@ -59,6 +59,35 @@ public class Labyrinth
     return x >= 0 && x < width && y >= 0 && y < height;
   }
 
+  public List<Corner> getCorners(int x, int y) {
+    List<Corner> corners = new List<Corner>();
+    bool n = hasWallTo(x, y, Direction.NORTH);
+    bool e = hasWallTo(x, y, Direction.EAST);
+    bool s = hasWallTo(x, y, Direction.SOUTH);
+    bool w = hasWallTo(x, y, Direction.WEST);
+    if (n && e) { corners.Add(Corner.NORTHEAST); }
+    if (n && w) { corners.Add(Corner.NORTHWEST); }
+    if (s && e) { corners.Add(Corner.SOUTHEAST); }
+    if (s && w) { corners.Add(Corner.SOUTHWEST); }
+    return corners;
+  }
+
+  public bool isCorridor(int x, int y) {
+    bool n = hasWallTo(x, y, Direction.NORTH);
+    bool e = hasWallTo(x, y, Direction.EAST);
+    bool s = hasWallTo(x, y, Direction.SOUTH);
+    bool w = hasWallTo(x, y, Direction.WEST);
+    return (n && s && !e && !w) || (!n && !s && e && w);
+  }
+
+  public int wallCount(int x, int y) {
+    int n = hasWallTo(x, y, Direction.NORTH) ? 1 : 0;
+    int e = hasWallTo(x, y, Direction.EAST) ? 1 : 0;
+    int s = hasWallTo(x, y, Direction.SOUTH) ? 1 : 0;
+    int w = hasWallTo(x, y, Direction.WEST) ? 1 : 0;
+    return n + e + s + w;
+  }
+
   private void createWallsAround()
   {
     for (int x = 0; x < width; ++x)

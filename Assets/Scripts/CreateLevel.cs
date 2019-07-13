@@ -13,11 +13,15 @@ public class CreateLevel : MonoBehaviour
   public GameObject healthPotion;
   public GameObject gem;
   public GameObject chest;
+  public GameObject candleholder;
+  public GameObject carpet;
 
   public float ghostProbability = 0.07f;
   public float gemProbability = 0.21f;
   public float healthProbability = 0.03f;
   public float chestProbability = 0.01f;
+  public float candleholderProbability = 0.12f;
+  public float carpetProbability = 0.21f;
 
   public int labyrinthWidth = 25;
   public int labyrinthHeight = 10;
@@ -38,6 +42,15 @@ public class CreateLevel : MonoBehaviour
     new Vector3(1, 0, 0),
     new Vector3(0, 0, -1),
     new Vector3(-1, 0, 0)
+  };
+
+  private static float chOfs = 1.5f;
+  // NORTHEAST, SOUTHEAST, SOUTHWEST, NORTHWEST
+  private Vector3[] candleHolderCornerOffsets = new Vector3[] {
+    new Vector3(chOfs, 0, chOfs),
+    new Vector3(chOfs, 0, -chOfs),
+    new Vector3(-chOfs, 0, -chOfs),
+    new Vector3(-chOfs, 0, chOfs)
   };
 
   public Coordinates toLabyrinthPosition(Vector3 gamePos)
@@ -96,6 +109,7 @@ public class CreateLevel : MonoBehaviour
     }
 
     createItems();
+    createDecorations();
   }
 
   private void createItems()
@@ -133,6 +147,27 @@ public class CreateLevel : MonoBehaviour
     }
   }
 
+  private void createDecorations()
+  {
+    for (int x = 0; x < labyrinthWidth; ++x)
+    {
+      for (int y = 0; y < labyrinthHeight; ++y)
+      {
+        List<Corner> corners = labyrinth.getCorners(x, y);
+        if (corners.Count > 0 && Random.Range(0f, 1f) < candleholderProbability)
+        {
+          createCandleHolder(x, y, corners[Random.Range(0, corners.Count)]);
+        }
+        if (labyrinth.isCorridor(x, y) && Random.Range(0f, 1f) < carpetProbability) {
+          createCarpet(x, y, labyrinth.hasWallTo(x, y, Direction.SOUTH));
+        }
+        if (labyrinth.wallCount(x, y) == 3 && Random.Range(0f, 1f) < carpetProbability) {
+          createCarpet(x, y, !labyrinth.hasWallTo(x, y, Direction.EAST) || !labyrinth.hasWallTo(x, y, Direction.WEST));
+        }
+      }
+    }
+  }
+
   private void createGhost(int x, int y)
   {
     GameObject g = Instantiate(ghost);
@@ -151,22 +186,41 @@ public class CreateLevel : MonoBehaviour
     g.transform.position = toGamePosition(x, y, 0.26f);
   }
 
+  private void createCandleHolder(int x, int y, Corner corner)
+  {
+    GameObject g = Instantiate(candleholder);
+    g.transform.position = toGamePosition(x, y) + candleHolderCornerOffsets[(int) corner];
+  }
+
+  private void createCarpet(int x, int y, bool alignToX)
+  {
+    GameObject g = Instantiate(carpet);
+    g.transform.position = toGamePosition(x, y);
+    if (!alignToX) {
+      g.transform.Rotate(0, 90, 0);
+    }
+  }
+
+  private static float chestOffs = 1.3f;
+
   private void createChest(int x, int y)
   {
     if (labyrinth.hasWallTo(x, y, Direction.NORTH))
     {
       GameObject g = Instantiate(chest);
-      g.transform.position = toGamePosition(x, y) + new Vector3(0, 0, 1.25f);
+      g.transform.position = toGamePosition(x, y) + new Vector3(0, 0, chestOffs);
       g.transform.Rotate(0, 90, 0);
     }
-    else if (labyrinth.hasWallTo(x, y, Direction.EAST) && x != labyrinth.width - 1 && y != labyrinth.height - 1) {
+    else if (labyrinth.hasWallTo(x, y, Direction.EAST) && x != labyrinth.width - 1 && y != labyrinth.height - 1)
+    {
       GameObject g = Instantiate(chest);
-      g.transform.position = toGamePosition(x, y) + new Vector3(1.25f, 0, 0);
+      g.transform.position = toGamePosition(x, y) + new Vector3(chestOffs, 0, 0);
       g.transform.Rotate(0, 180, 0);
     }
-    else if (labyrinth.hasWallTo(x, y, Direction.WEST) && x != 0 && y != 0) {
+    else if (labyrinth.hasWallTo(x, y, Direction.WEST) && x != 0 && y != 0)
+    {
       GameObject g = Instantiate(chest);
-      g.transform.position = toGamePosition(x, y) + new Vector3(-1.25f, 0, 0);
+      g.transform.position = toGamePosition(x, y) + new Vector3(-chestOffs, 0, 0);
     }
   }
 
