@@ -79,3 +79,9 @@ Gem kaching sound is taken from the
 [Achievements SFX FREE](https://assetstore.unity.com/packages/audio/sound-fx/achievement-sfx-free-91639) asset pack.
 
 - Publisher [B.G.M.](https://soundcloud.com/fantasticbgm)
+
+Chest open/close sounds have been taken from
+[Old Boat Lower Deck Hatck Pack 1](https://assetstore.unity.com/packages/audio/sound-fx/foley/old-boat-lower-deck-hatch-pack-1-148611)
+from the Unity Asset Store (and shortened a bit).
+
+- Publisher [Stormwave Audio](https://stormwave-audio.com/)

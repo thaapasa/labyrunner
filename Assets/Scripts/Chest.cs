@@ -5,15 +5,20 @@ using UnityEngine;
 public class Chest : MonoBehaviour
 {
 
+  public AudioClip openSound;
+  public AudioClip closeSound;
+
   public bool canClose = true;
 
   private bool open = false;
 
   private Animator animator;
+  private AudioSource source;
 
   private void Start()
   {
     animator = GetComponent<Animator>();
+    source = GetComponent<AudioSource>();
   }
 
   private void OnTriggerEnter(Collider other)
@@ -30,11 +35,13 @@ public class Chest : MonoBehaviour
     {
       Debug.Log("Closing chest");
       open = false;
+      source.PlayOneShot(closeSound);
     }
     else
     {
       Debug.Log("Opening chest");
       open = true;
+      source.PlayOneShot(openSound);
       player.GetComponent<PlayerScore>().addScore(50);
     }
     animator.SetBool("Open", open);
