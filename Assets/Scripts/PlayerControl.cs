@@ -36,18 +36,23 @@ public class PlayerControl : MonoBehaviour
       {
         animator.SetTrigger("Slash");
       }
-      animator.SetBool("Guard", Input.GetButton("Block"));
+
+      // animator.SetBool("Guard", Input.GetButton("Block"));
 
       if (Input.GetButtonDown("Teleport")) {
         Debug.Log("Teleporting...");
         TeleportEffect.teleporting = true;
       }
       if (Input.GetButtonUp("Teleport")) {
-        Debug.Log("Teleporting release...");
         TeleportEffect.teleporting = false;
       }
 
-      TeleportEffect.settingUp = animator.GetCurrentAnimatorStateInfo(1).IsName("Sword_Guard");
+      if (Input.GetButtonDown("PlacePortal")) {
+        TeleportEffect.settingUp = true;
+      }
+      if (Input.GetButtonUp("PlacePortal")) {
+        TeleportEffect.settingUp = false;
+      }
 
       if (animator.GetCurrentAnimatorStateInfo(1).IsName("Sword_Iai") ||
           animator.GetCurrentAnimatorStateInfo(1).IsName("Sword_Guard") ||

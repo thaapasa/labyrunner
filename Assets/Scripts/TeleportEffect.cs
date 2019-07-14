@@ -41,30 +41,30 @@ public class TeleportEffect : MonoBehaviour
   }
 
   private float setupTimer;
-  private bool teleportPlaced = false;
+  private GameObject currentSetupEffect;
   void Update()
   {
     if (settingUp) {
       if (setupTimer == 0) {
         Debug.Log("Create Teleport setup effect");
-        teleportPlaced = false;
-        GameObject ef = Instantiate(setupEffect);
-        ef.transform.position = player.transform.position;
-        Destroy(ef, 3);
+        currentSetupEffect = Instantiate(setupEffect);
       }
+      currentSetupEffect.transform.position = player.transform.position;
       setupTimer += Time.deltaTime;
-      if (setupTimer >= setupEffectTime && !teleportPlaced) {
-        teleportPlaced = true;
+      if (setupTimer >= setupEffectTime) {
         Vector3 pos = player.transform.position;
         Debug.Log("Set teleport position to " + pos);
         teleportTarget = pos;
         GameObject ef = Instantiate(placeEffect);
+        Destroy(currentSetupEffect);
+        currentSetupEffect = null;
         ef.transform.position = player.transform.position;
         Destroy(ef, 5);
+        settingUp = false;
+        setupTimer = 0;
       }
     } else {
       setupTimer = 0;
-      teleportPlaced = false;
     }
     if (teleporting) {
       if (solidity == 1) {
