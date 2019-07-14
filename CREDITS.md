@@ -85,3 +85,7 @@ Chest open/close sounds have been taken from
 from the Unity Asset Store (and shortened a bit).
 
 - Publisher [Stormwave Audio](https://stormwave-audio.com/)
+
+Water swirl sound (when taking potion) is
+["Water Swirl, Small, 3.wav"](https://freesound.org/people/InspectorJ/sounds/398723/)
+by [InspectorJ](www.jshaw.co.uk) of [Freesound.org](https://freesound.org/).

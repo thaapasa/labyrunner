@@ -5,6 +5,9 @@ using UnityEngine;
 public class HealthPotion : MonoBehaviour
 {
 
+  public GameObject effect;
+  public float effectDurationSeconds;
+
   public float bounceSpeed = 3; 
 
   private float yOffs = 0;
@@ -27,7 +30,11 @@ public class HealthPotion : MonoBehaviour
     {
       if (other.gameObject.GetComponent<PlayerHealth>().giveHealth())
       {
+        GameObject ef = Instantiate(effect);
+        ef.transform.position = gameObject.transform.position;
+
         Destroy(gameObject);
+        Destroy(ef, effectDurationSeconds);
       }
     }
   }

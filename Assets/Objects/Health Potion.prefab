@@ -45,6 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd58537931da64fee89c9a9f901333d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  effect: {fileID: 4871452349737158634, guid: af26c0e4fabb56c4fbdf928b847954bd, type: 3}
+  effectDurationSeconds: 2.1
   bounceSpeed: 3
 --- !u!136 &8909295573480253849
 CapsuleCollider:
