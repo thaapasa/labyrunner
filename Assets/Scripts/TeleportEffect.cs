@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class TeleportEffect : MonoBehaviour
 {
-  public float spawnEffectTime = 2;
+  public float spawnEffectTime = 2f;
+  public float setupEffectTime = 1.3f;
   public float pause = 1;
   public AnimationCurve fadeIn;
 
@@ -21,7 +22,7 @@ public class TeleportEffect : MonoBehaviour
   Vector3 teleportTarget = new Vector3(0, 0, 0);
 
   public GameObject setupEffect;
-  GameObject currentSetupEffect;
+  public GameObject placeEffect;
   GameObject player;
   CharacterController controller;
 
@@ -39,18 +40,31 @@ public class TeleportEffect : MonoBehaviour
     ps.Play();
   }
 
+  private float setupTimer;
+  private bool teleportPlaced = false;
   void Update()
   {
     if (settingUp) {
-      if (currentSetupEffect == null) {
-        currentSetupEffect = Instantiate(setupEffect);
-        currentSetupEffect.transform.position = player.transform.position;
+      if (setupTimer == 0) {
+        Debug.Log("Create Teleport setup effect");
+        teleportPlaced = false;
+        GameObject ef = Instantiate(setupEffect);
+        ef.transform.position = player.transform.position;
+        Destroy(ef, 3);
+      }
+      setupTimer += Time.deltaTime;
+      if (setupTimer >= setupEffectTime && !teleportPlaced) {
+        teleportPlaced = true;
+        Vector3 pos = player.transform.position;
+        Debug.Log("Set teleport position to " + pos);
+        teleportTarget = pos;
+        GameObject ef = Instantiate(placeEffect);
+        ef.transform.position = player.transform.position;
+        Destroy(ef, 5);
       }
     } else {
-      if (currentSetupEffect != null) {
-        Destroy(currentSetupEffect);
-        currentSetupEffect = null;
-      }
+      setupTimer = 0;
+      teleportPlaced = false;
     }
     if (teleporting) {
       if (solidity == 1) {

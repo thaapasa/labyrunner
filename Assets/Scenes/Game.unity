@@ -833,6 +833,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1536526873779023735, guid: ed28460abdde26b4fa19bc2c9ee46944,
         type: 3}
+    - target: {fileID: 8435053080455567082, guid: e209b9e719437e145951c42cb3c16ae4,
+        type: 3}
+      propertyPath: placeEffect
+      value: 
+      objectReference: {fileID: 1536526873779023735, guid: 62592cb3bdcff754abd57f5c89b59bd8,
+        type: 3}
+    - target: {fileID: 1042654935802812337, guid: e209b9e719437e145951c42cb3c16ae4,
+        type: 3}
+      propertyPath: EmissionModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114672091379749092, guid: e209b9e719437e145951c42cb3c16ae4, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e209b9e719437e145951c42cb3c16ae4, type: 3}

@@ -62,6 +62,12 @@ Several effects have been taken from the
 
 - Publisher [Unity](https://unity.com/)
 
+Teleport placement aura effect is taken from 
+[Magic aura skill VFX](https://assetstore.unity.com/packages/vfx/particles/spells/magic-aura-skill-vfx-132128)
+free asset.
+
+- Publisher [Diamond Fox](https://www.artstation.com/user-312) (Алексей Савельев)
+
 ## Audio
 
 Background music is taken from 
