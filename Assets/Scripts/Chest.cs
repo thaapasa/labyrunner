@@ -37,7 +37,7 @@ public class Chest : MonoBehaviour
       open = false;
       source.PlayOneShot(closeSound);
     }
-    else
+    else if (!open)
     {
       Debug.Log("Opening chest");
       open = true;
