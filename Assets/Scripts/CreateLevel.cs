@@ -35,6 +35,8 @@ public class CreateLevel : MonoBehaviour
 
   private Vector3 levelOffset;
 
+  public static int level = 1;
+
   // Wall to: SOUTH, WEST, NORTH, EAST
   // Is pointing: NORTH, EAST, SOUTH, WEST
   private Vector3[] directionVectors = new Vector3[] {
@@ -68,6 +70,10 @@ public class CreateLevel : MonoBehaviour
   // Start is called before the first frame update
   void Start()
   {
+    Debug.Log("Creating level " + level + ", original " + labyrinthWidth + "x" + labyrinthHeight);
+    labyrinthWidth += (level - 1);
+    labyrinthHeight += (level - 1);
+    Debug.Log("Adjusted level size " + labyrinthWidth + "x" + labyrinthHeight);
     float floorWidth = (labyrinthWidth + safeZone * 2) * wallWidth;
     float floorHeight = (labyrinthHeight + safeZone * 2) * wallWidth;
     floorCollider.transform.localScale = new Vector3(floorWidth, 1, floorHeight);
