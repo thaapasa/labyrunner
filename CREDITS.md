@@ -59,6 +59,7 @@ Several effects have been taken from the
 - Pumpkin explosion
 - Teleportation effect
 - Mist trail on taking gems
+- Dust motes on startup area
 
 - Publisher [Unity](https://unity.com/)
 
