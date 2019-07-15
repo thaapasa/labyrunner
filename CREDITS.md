@@ -60,6 +60,7 @@ Several effects have been taken from the
 - Teleportation effect
 - Mist trail on taking gems
 - Dust motes on startup area
+- Electrical sparks
 
 - Publisher [Unity](https://unity.com/)
 
