@@ -15,6 +15,8 @@ public class CreateLevel : MonoBehaviour
   public GameObject chest;
   public GameObject candleholder;
   public GameObject carpet;
+  public Material daySky;
+  public Material nightSky;
 
   public float ghostProbability = 0.07f;
   public float gemProbability = 0.21f;
@@ -71,9 +73,16 @@ public class CreateLevel : MonoBehaviour
   void Start()
   {
     Debug.Log("Creating level " + level + ", original " + labyrinthWidth + "x" + labyrinthHeight);
-    labyrinthWidth += (level - 1);
+    labyrinthWidth += (level - 1) * 2;
     labyrinthHeight += (level - 1);
     Debug.Log("Adjusted level size " + labyrinthWidth + "x" + labyrinthHeight);
+    
+    RenderSettings.skybox = level == 1 ? daySky : nightSky;
+
+    if (level == 1) {
+      candleholderProbability = 0;
+    }
+    
     float floorWidth = (labyrinthWidth + safeZone * 2) * wallWidth;
     float floorHeight = (labyrinthHeight + safeZone * 2) * wallWidth;
     floorCollider.transform.localScale = new Vector3(floorWidth, 1, floorHeight);
