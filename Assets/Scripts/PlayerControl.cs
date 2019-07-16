@@ -7,6 +7,7 @@ public class PlayerControl : MonoBehaviour
   CharacterController characterController;
   Animator animator;
   public Camera playerCamera;
+  public GameObject strikeEffect;
 
   public float speed = 6.0f;
   public float jumpSpeed = 8.0f;
@@ -35,6 +36,10 @@ public class PlayerControl : MonoBehaviour
       if (Input.GetButtonDown("Fire"))
       {
         animator.SetTrigger("Slash");
+        GameObject effect = Instantiate(strikeEffect);
+        effect.transform.position = transform.position;
+        effect.transform.rotation = transform.rotation;
+        Destroy(effect, 3f);
       }
 
       // animator.SetBool("Guard", Input.GetButton("Block"));

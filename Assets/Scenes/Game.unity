@@ -1079,6 +1079,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 631631461}
+  strikeEffect: {fileID: 4378476685108781834, guid: 74438a9a04e10435980f3b68a6831ddb,
+    type: 3}
   speed: 6.5
   jumpSpeed: 8
   gravity: 20

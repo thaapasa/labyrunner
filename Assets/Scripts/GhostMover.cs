@@ -86,7 +86,6 @@ public class GhostMover : MonoBehaviour
       moveNow = moveLeft;
     }
 
-
     transform.position = transform.position + moveVectors[(int)direction] * moveNow;
     transform.rotation.SetLookRotation(moveVectors[(int)direction]);
     moveLeft -= moveNow;
