@@ -4,9 +4,33 @@ using UnityEngine;
 
 public class GhostHit : MonoBehaviour
 {
+
+  public AnimationCurve deathEffectCurve;
+  public float deathDurationSecs = 1.0f;
   public GameObject deathEffect;
   public GameObject ghostParent;
   public float deathEffectDurationSeconds = 2f;
+
+  private Renderer ghostRenderer;
+
+  private int shaderProperty;
+
+  void Start()
+  {
+    ghostRenderer = GetComponentInChildren<Renderer>();
+    shaderProperty = Shader.PropertyToID("_cutoff");
+  }
+
+  void Update()
+  {
+    if (hasBeenHit)
+    {
+      deathTicker += Time.deltaTime;
+      float dissolved = deathTicker / deathDurationSecs;
+      float cutoffValue = deathEffectCurve.Evaluate(dissolved);
+      ghostRenderer.material.SetFloat(shaderProperty, cutoffValue);
+    }
+  }
 
   private void OnTriggerEnter(Collider other)
   {
@@ -23,8 +47,13 @@ public class GhostHit : MonoBehaviour
     }
   }
 
-  public void killGhost() {
-    Destroy(ghostParent);
+  private bool hasBeenHit = false;
+  private float deathTicker = 0;
+
+  public void killGhost()
+  {
+    Destroy(ghostParent, deathDurationSecs);
+    hasBeenHit = true;
   }
 
 }
