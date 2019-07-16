@@ -22,4 +22,9 @@ public class GhostHit : MonoBehaviour
       Destroy(effect, deathEffectDurationSeconds);
     }
   }
+
+  public void killGhost() {
+    Destroy(ghostParent);
+  }
+
 }
