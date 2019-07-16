@@ -12,12 +12,14 @@ public class GhostHit : MonoBehaviour
   public float deathEffectDurationSeconds = 2f;
 
   private Renderer ghostRenderer;
+  private ParticleSystem deathPs;
 
   private int shaderProperty;
 
   void Start()
   {
     ghostRenderer = GetComponentInChildren<Renderer>();
+    deathPs = GetComponentInChildren<ParticleSystem>();
     shaderProperty = Shader.PropertyToID("_cutoff");
   }
 
@@ -27,14 +29,17 @@ public class GhostHit : MonoBehaviour
     {
       deathTicker += Time.deltaTime;
       float dissolved = deathTicker / deathDurationSecs;
-      float cutoffValue = deathEffectCurve.Evaluate(dissolved);
+      float cutoffValue = Mathf.Min(deathEffectCurve.Evaluate(dissolved), 1f);
       ghostRenderer.material.SetFloat(shaderProperty, cutoffValue);
+      if (deathTicker >= deathDurationSecs) {
+        hasDied = true;
+      }
     }
   }
 
   private void OnTriggerEnter(Collider other)
   {
-    if (other.gameObject.name == "Player")
+    if (other.gameObject.name == "Player" && !hasDied)
     {
       Debug.Log("Collision with ghost");
       other.gameObject.GetComponent<PlayerHealth>().damagePlayer();
@@ -49,10 +54,12 @@ public class GhostHit : MonoBehaviour
 
   private bool hasBeenHit = false;
   private float deathTicker = 0;
+  private bool hasDied = false;
 
   public void killGhost()
   {
-    Destroy(ghostParent, deathDurationSecs);
+    Destroy(ghostParent, deathDurationSecs + 3f);
+    deathPs.Play();
     hasBeenHit = true;
   }
 
