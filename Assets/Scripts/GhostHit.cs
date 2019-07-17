@@ -13,6 +13,7 @@ public class GhostHit : MonoBehaviour
 
   private Renderer ghostRenderer;
   private ParticleSystem deathPs;
+  private AudioSource deathSource;
 
   private int shaderProperty;
 
@@ -21,6 +22,7 @@ public class GhostHit : MonoBehaviour
     ghostRenderer = GetComponentInChildren<Renderer>();
     deathPs = GetComponentInChildren<ParticleSystem>();
     shaderProperty = Shader.PropertyToID("_cutoff");
+    deathSource = GetComponent<AudioSource>();
   }
 
   void Update()
@@ -59,6 +61,7 @@ public class GhostHit : MonoBehaviour
   public void killGhost()
   {
     Destroy(ghostParent, deathDurationSecs + 3f);
+    deathSource.Play();
     deathPs.Play();
     hasBeenHit = true;
   }
