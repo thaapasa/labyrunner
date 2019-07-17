@@ -77,7 +77,7 @@ public class CreateLevel : MonoBehaviour
     labyrinthHeight += (level - 1);
     Debug.Log("Adjusted level size " + labyrinthWidth + "x" + labyrinthHeight);
     
-    RenderSettings.skybox = level == 1 ? daySky : nightSky;
+    // RenderSettings.skybox = level == 1 ? daySky : nightSky;
 
     if (level == 1) {
       candleholderProbability = 0;
