@@ -97,3 +97,6 @@ from the Unity Asset Store (and shortened a bit).
 Water swirl sound (when taking potion) is
 ["Water Swirl, Small, 3.wav"](https://freesound.org/people/InspectorJ/sounds/398723/)
 by [InspectorJ](www.jshaw.co.uk) of [Freesound.org](https://freesound.org/).
+
+Ghost burn sound is "Acid pour on skin, burn, sizzle 1" sound from
+[ZapSplat](https://www.zapsplat.com/).
