@@ -13,12 +13,14 @@ public class PlayerHealth : MonoBehaviour
 
   private List<GameObject> healthIcons = new List<GameObject>();
 
-  private int health = 0;
+  private static int health = 0;
 
   // Start is called before the first frame update
   void Start()
   {
-    health = startHealth;
+    if (health == 0) {
+      health = startHealth;
+    }
     updateUIIcons();
   }
 
