@@ -9,7 +9,7 @@ public class PlayerControl : MonoBehaviour
   public Camera playerCamera;
   public GameObject strikeEffect;
   public AudioClip[] swordAttackClips;
-  
+
 
   public float speed = 6.0f;
   public float jumpSpeed = 8.0f;
@@ -25,11 +25,21 @@ public class PlayerControl : MonoBehaviour
 
   void Start()
   {
+    _playerRef = gameObject;
     characterController = GetComponent<CharacterController>();
     animator = GetComponent<Animator>();
     audioSource = GetComponent<AudioSource>();
   }
 
+  private static GameObject _playerRef;
+  public static GameObject GetPlayer()
+  {
+    if (_playerRef == null)
+    {
+      _playerRef = GameObject.Find("Player");
+    }
+    return _playerRef;
+  }
 
   void FixedUpdate()
   {
@@ -46,18 +56,22 @@ public class PlayerControl : MonoBehaviour
 
       // animator.SetBool("Guard", Input.GetButton("Block"));
 
-      if (Input.GetButtonDown("Teleport")) {
+      if (Input.GetButtonDown("Teleport"))
+      {
         Debug.Log("Teleporting...");
         TeleportEffect.teleporting = true;
       }
-      if (Input.GetButtonUp("Teleport")) {
+      if (Input.GetButtonUp("Teleport"))
+      {
         TeleportEffect.teleporting = false;
       }
 
-      if (Input.GetButtonDown("PlacePortal")) {
+      if (Input.GetButtonDown("PlacePortal"))
+      {
         TeleportEffect.settingUp = true;
       }
-      if (Input.GetButtonUp("PlacePortal")) {
+      if (Input.GetButtonUp("PlacePortal"))
+      {
         TeleportEffect.settingUp = false;
       }
 
@@ -130,7 +144,8 @@ public class PlayerControl : MonoBehaviour
     #endregion
   }
 
-  private void attackWithSword() {
+  private void attackWithSword()
+  {
     animator.SetTrigger("Slash");
     GameObject effect = Instantiate(strikeEffect);
     effect.transform.position = transform.position;

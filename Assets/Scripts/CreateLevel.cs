@@ -31,6 +31,7 @@ public class CreateLevel : MonoBehaviour
   public int labyrinthHeight = 10;
 
   public float wallWidth = 4f;
+  public int levelFinishScore = 150;
   private float wallOffsetY = -1.6f;
 
   private int safeZone = 4;
@@ -282,6 +283,7 @@ public class CreateLevel : MonoBehaviour
 
   public void nextLevel()
   {
+    PlayerControl.GetPlayer().GetComponent<PlayerScore>().addScore(levelFinishScore * (int) Mathf.Pow(1.5f, level - 1));
     godModePersisted = godMode;
     level = level + 1;
     SceneManager.LoadScene("Game");

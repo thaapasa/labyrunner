@@ -9,6 +9,7 @@ public class GhostHit : MonoBehaviour
   public float deathDurationSecs = 1.0f;
   public GameObject deathEffect;
   public GameObject ghostParent;
+  public int ghostKillScore = 25;
   public float deathEffectDurationSeconds = 2f;
 
   private Renderer ghostRenderer;
@@ -60,10 +61,15 @@ public class GhostHit : MonoBehaviour
 
   public void killGhost()
   {
+    if (hasBeenHit) {
+      return;
+    }
     Destroy(ghostParent, deathDurationSecs + 3f);
     deathSource.Play();
     deathPs.Play();
     hasBeenHit = true;
+
+    PlayerControl.GetPlayer().GetComponent<PlayerScore>().addScore(ghostKillScore);
   }
 
 }
