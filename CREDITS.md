@@ -103,3 +103,5 @@ Sound effects from [ZapSplat](https://www.zapsplat.com/):
 - "Acid pour on skin, burn, sizzle 1" (ghost burn sound)
 - "Short cane stick whip, swish through air 2" (sword attack)
 - "Short cane stick whip, swish through air 3" (sword attack)
+- "Portal, Teleport, Spawn, Warp, Magic" (teleport portal place sound)
+- "Portal, Teleport, Spawn, Warp, Magic" (teleportation sound)

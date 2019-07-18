@@ -9,6 +9,7 @@ public class PlayerControl : MonoBehaviour
   public Camera playerCamera;
   public GameObject strikeEffect;
   public AudioClip[] swordAttackClips;
+  
 
   public float speed = 6.0f;
   public float jumpSpeed = 8.0f;

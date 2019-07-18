@@ -25,6 +25,9 @@ public class TeleportEffect : MonoBehaviour
   public GameObject placeEffect;
   GameObject player;
   CharacterController controller;
+  public AudioClip teleportClip;
+
+  private AudioSource audioSource;
 
   void Start()
   {
@@ -38,6 +41,7 @@ public class TeleportEffect : MonoBehaviour
     main.duration = spawnEffectTime;
 
     ps.Play();
+    audioSource = player.GetComponent<AudioSource>();
   }
 
   private float setupTimer;
@@ -96,7 +100,8 @@ public class TeleportEffect : MonoBehaviour
     teleporting = false;
     controller.enabled = false;
     player.transform.position = teleportTarget;
-    controller.enabled = true; 
+    controller.enabled = true;
     ps.Play();
+    audioSource.PlayOneShot(teleportClip);
   }
 }
