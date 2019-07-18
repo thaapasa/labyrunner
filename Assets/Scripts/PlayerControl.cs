@@ -8,6 +8,7 @@ public class PlayerControl : MonoBehaviour
   Animator animator;
   public Camera playerCamera;
   public GameObject strikeEffect;
+  public AudioClip[] swordAttackClips;
 
   public float speed = 6.0f;
   public float jumpSpeed = 8.0f;
@@ -19,11 +20,15 @@ public class PlayerControl : MonoBehaviour
 
   private Vector3 moveDirection = Vector3.zero;
 
+  private AudioSource audioSource;
+
   void Start()
   {
     characterController = GetComponent<CharacterController>();
     animator = GetComponent<Animator>();
+    audioSource = GetComponent<AudioSource>();
   }
+
 
   void FixedUpdate()
   {
@@ -35,11 +40,7 @@ public class PlayerControl : MonoBehaviour
     {
       if (Input.GetButtonDown("Fire"))
       {
-        animator.SetTrigger("Slash");
-        GameObject effect = Instantiate(strikeEffect);
-        effect.transform.position = transform.position;
-        effect.transform.rotation = transform.rotation;
-        Destroy(effect, 3f);
+        attackWithSword();
       }
 
       // animator.SetBool("Guard", Input.GetButton("Block"));
@@ -126,5 +127,15 @@ public class PlayerControl : MonoBehaviour
     characterController.Move(moveDirection * speed * Time.fixedDeltaTime);
     characterController.Move(Vector3.up * verticalSpeed * Time.fixedDeltaTime);
     #endregion
+  }
+
+  private void attackWithSword() {
+    animator.SetTrigger("Slash");
+    GameObject effect = Instantiate(strikeEffect);
+    effect.transform.position = transform.position;
+    effect.transform.rotation = transform.rotation;
+    Destroy(effect, 3f);
+
+    audioSource.PlayOneShot(swordAttackClips[Random.Range(0, swordAttackClips.Length)]);
   }
 }

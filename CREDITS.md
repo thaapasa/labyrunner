@@ -98,5 +98,8 @@ Water swirl sound (when taking potion) is
 ["Water Swirl, Small, 3.wav"](https://freesound.org/people/InspectorJ/sounds/398723/)
 by [InspectorJ](www.jshaw.co.uk) of [Freesound.org](https://freesound.org/).
 
-Ghost burn sound is "Acid pour on skin, burn, sizzle 1" sound from
-[ZapSplat](https://www.zapsplat.com/).
+Sound effects from [ZapSplat](https://www.zapsplat.com/):
+
+- "Acid pour on skin, burn, sizzle 1" (ghost burn sound)
+- "Short cane stick whip, swish through air 2" (sword attack)
+- "Short cane stick whip, swish through air 3" (sword attack)

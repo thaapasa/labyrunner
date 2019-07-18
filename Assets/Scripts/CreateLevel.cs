@@ -79,10 +79,6 @@ public class CreateLevel : MonoBehaviour
     
     // RenderSettings.skybox = level == 1 ? daySky : nightSky;
 
-    if (level == 1) {
-      candleholderProbability = 0;
-    }
-    
     float floorWidth = (labyrinthWidth + safeZone * 2) * wallWidth;
     float floorHeight = (labyrinthHeight + safeZone * 2) * wallWidth;
     floorCollider.transform.localScale = new Vector3(floorWidth, 1, floorHeight);
