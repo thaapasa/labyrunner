@@ -51,6 +51,8 @@ Heart icon by [SmashIcons](https://www.flaticon.com/authors/smashicons)
 from [Flaticon](https://www.flaticon.com/) is licensed by 
 [Creative Commons BY 3.0](http://creativecommons.org/licenses/by/3.0/).
 
+UI font is [Plater](https://fonts.google.com/specimen/Plaster) from Google Fonts.
+
 ## Effects
 
 Several effects have been taken from the
