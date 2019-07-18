@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CreateLevel : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class CreateLevel : MonoBehaviour
   public GameObject carpet;
   public Material daySky;
   public Material nightSky;
+  public bool godMode = false;
 
   public float ghostProbability = 0.07f;
   public float gemProbability = 0.21f;
@@ -69,15 +71,21 @@ public class CreateLevel : MonoBehaviour
     return p * wallWidth + levelOffset;
   }
 
+  private static bool godModePersisted = false;
   // Start is called before the first frame update
   void Start()
   {
+    godMode = godModePersisted;
     Debug.Log("Creating level " + level + ", original " + labyrinthWidth + "x" + labyrinthHeight);
     labyrinthWidth += (level - 1) * 2;
     labyrinthHeight += (level - 1);
     Debug.Log("Adjusted level size " + labyrinthWidth + "x" + labyrinthHeight);
     
     // RenderSettings.skybox = level == 1 ? daySky : nightSky;
+
+    healthProbability = healthProbability * Mathf.Pow(0.95f, level - 1);
+    ghostProbability = ghostProbability * Mathf.Pow(1.2f, level - 1);
+    chestProbability = chestProbability * Mathf.Pow(1.1f, level - 1);
 
     float floorWidth = (labyrinthWidth + safeZone * 2) * wallWidth;
     float floorHeight = (labyrinthHeight + safeZone * 2) * wallWidth;
@@ -260,5 +268,17 @@ public class CreateLevel : MonoBehaviour
     float xpos = x * wallWidth;
     float ypos = y * wallWidth;
     f.transform.position = new Vector3(xpos, 0, ypos) + levelOffset;
+  }
+
+  public void nextLevel() {
+    godModePersisted = godMode;
+    level = level + 1;
+    SceneManager.LoadScene("Game");
+  }
+
+  void Update() {
+    if (Input.GetKeyDown(KeyCode.N) && godMode) {
+      nextLevel();
+    }
   }
 }
