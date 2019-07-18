@@ -18,7 +18,8 @@ public class PlayerHealth : MonoBehaviour
   // Start is called before the first frame update
   void Start()
   {
-    if (health == 0) {
+    if (health == 0)
+    {
       health = startHealth;
     }
     updateUIIcons();
@@ -41,13 +42,15 @@ public class PlayerHealth : MonoBehaviour
       updateUIIcons();
       return true;
     }
-    else {
+    else
+    {
       return false;
     }
   }
 
   void updateUIIcons()
   {
+    if (ui == null) { return; }
     while (healthIcons.Count < health)
     {
       GameObject icon = Instantiate(healthIcon);

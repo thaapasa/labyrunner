@@ -24,6 +24,9 @@ public class PlayerScore : MonoBehaviour
 
   void updateUI()
   {
-    scoreText.GetComponent<Text>().text = score.ToString();
+    if (scoreText != null)
+    {
+      scoreText.GetComponent<Text>().text = score.ToString();
+    }
   }
 }

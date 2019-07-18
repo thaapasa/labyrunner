@@ -80,7 +80,7 @@ public class CreateLevel : MonoBehaviour
     labyrinthWidth += (level - 1) * 2;
     labyrinthHeight += (level - 1);
     Debug.Log("Adjusted level size " + labyrinthWidth + "x" + labyrinthHeight);
-    
+
     // RenderSettings.skybox = level == 1 ? daySky : nightSky;
 
     healthProbability = healthProbability * Mathf.Pow(0.95f, level - 1);
@@ -166,6 +166,11 @@ public class CreateLevel : MonoBehaviour
     }
   }
 
+  private bool isEndingAreaEntry(int x, int y)
+  {
+    return x == labyrinth.width - 1 && y == labyrinth.height - 1;
+  }
+
   private void createDecorations()
   {
     for (int x = 0; x < labyrinthWidth; ++x)
@@ -177,10 +182,12 @@ public class CreateLevel : MonoBehaviour
         {
           createCandleHolder(x, y, corners[Random.Range(0, corners.Count)]);
         }
-        if (labyrinth.isCorridor(x, y) && Random.Range(0f, 1f) < carpetProbability) {
+        if (labyrinth.isCorridor(x, y) && Random.Range(0f, 1f) < carpetProbability)
+        {
           createCarpet(x, y, labyrinth.hasWallTo(x, y, Direction.SOUTH));
         }
-        if (labyrinth.wallCount(x, y) == 3 && Random.Range(0f, 1f) < carpetProbability) {
+        if (labyrinth.wallCount(x, y) == 3 && Random.Range(0f, 1f) < carpetProbability)
+        {
           createCarpet(x, y, !labyrinth.hasWallTo(x, y, Direction.EAST) || !labyrinth.hasWallTo(x, y, Direction.WEST));
         }
       }
@@ -207,15 +214,18 @@ public class CreateLevel : MonoBehaviour
 
   private void createCandleHolder(int x, int y, Corner corner)
   {
+    if (isEndingAreaEntry(x, y)) { return; }
     GameObject g = Instantiate(candleholder);
-    g.transform.position = toGamePosition(x, y) + candleHolderCornerOffsets[(int) corner];
+    g.transform.position = toGamePosition(x, y) + candleHolderCornerOffsets[(int)corner];
   }
 
   private void createCarpet(int x, int y, bool alignToX)
   {
+    if (isEndingAreaEntry(x, y)) { return; }
     GameObject g = Instantiate(carpet);
     g.transform.position = toGamePosition(x, y);
-    if (!alignToX) {
+    if (!alignToX)
+    {
       g.transform.Rotate(0, 90, 0);
     }
   }
@@ -270,14 +280,17 @@ public class CreateLevel : MonoBehaviour
     f.transform.position = new Vector3(xpos, 0, ypos) + levelOffset;
   }
 
-  public void nextLevel() {
+  public void nextLevel()
+  {
     godModePersisted = godMode;
     level = level + 1;
     SceneManager.LoadScene("Game");
   }
 
-  void Update() {
-    if (Input.GetKeyDown(KeyCode.N) && godMode) {
+  void Update()
+  {
+    if (Input.GetKeyDown(KeyCode.N) && godMode)
+    {
       nextLevel();
     }
   }
