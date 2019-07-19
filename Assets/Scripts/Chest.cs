@@ -14,11 +14,13 @@ public class Chest : MonoBehaviour
 
   private Animator animator;
   private AudioSource source;
+  private ParticleSystem ps;
 
   private void Start()
   {
     animator = GetComponent<Animator>();
     source = GetComponent<AudioSource>();
+    ps = GetComponentInChildren<ParticleSystem>();
   }
 
   private void OnTriggerEnter(Collider other)
@@ -36,6 +38,7 @@ public class Chest : MonoBehaviour
       Debug.Log("Closing chest");
       open = false;
       source.PlayOneShot(closeSound);
+      ps.Stop();
     }
     else if (!open)
     {
@@ -43,6 +46,7 @@ public class Chest : MonoBehaviour
       open = true;
       source.PlayOneShot(openSound);
       player.GetComponent<PlayerScore>().addScore(50);
+      ps.Play();
     }
     animator.SetBool("Open", open);
   }
