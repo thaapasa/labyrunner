@@ -24,5 +24,5 @@ SOFTWARE.
 
 ## Other assets
 
-See [Credits](./Credits.md) for information about other assets included in
+See [Credits](./CREDITS.md) for information about other assets included in
 this game.
