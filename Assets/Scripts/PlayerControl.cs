@@ -1,9 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerControl : MonoBehaviour
 {
+  private PlayerInputActions inputActions;
+  private Vector3 direction;
+
   CharacterController characterController;
   Animator animator;
   public Camera playerCamera;
@@ -23,25 +27,73 @@ public class PlayerControl : MonoBehaviour
 
   private AudioSource audioSource;
 
-  void Start()
+  private static GameObject _playerRef;
+
+  private void Awake()
   {
     _playerRef = gameObject;
+    inputActions = new PlayerInputActions();
     characterController = GetComponent<CharacterController>();
     animator = GetComponent<Animator>();
     audioSource = GetComponent<AudioSource>();
   }
 
-  private static GameObject _playerRef;
+  private void OnDestroy()
+  {
+    if (_playerRef == gameObject)
+    {
+      _playerRef = null;
+    }
+  }
+
+  private void OnEnable()
+  {
+    inputActions.Gameplay.Enable();
+    inputActions.Gameplay.Move.performed += OnMove;
+    inputActions.Gameplay.Move.canceled += OnMove;
+    inputActions.Gameplay.Quit.performed += OnQuit;
+  }
+
+  private void OnDisable()
+  {
+    inputActions.Gameplay.Move.performed -= OnMove;
+    inputActions.Gameplay.Move.canceled -= OnMove;
+    inputActions.Gameplay.Quit.performed -= OnQuit;
+    inputActions.Gameplay.Disable();
+  }
+
   public static GameObject GetPlayer()
   {
-    if (_playerRef == null)
-    {
-      _playerRef = GameObject.Find("Player");
-    }
     return _playerRef;
   }
 
-  void FixedUpdate()
+  private void OnMove(InputAction.CallbackContext context)
+  {
+    Vector2 input = context.ReadValue<Vector2>();
+    direction = new Vector3(input.x, 0, input.y);
+  }
+
+  private void Update()
+  {
+    characterController.Move(direction * Time.deltaTime);
+  }
+
+  public Vector3 GetInputTranslationDirection()
+  {
+    return direction;
+  }
+
+  private void OnQuit(InputAction.CallbackContext context)
+  {
+    // Quit the game
+    Application.Quit();
+    #if UNITY_EDITOR
+    // Stop playing the scene in the Unity Editor
+    UnityEditor.EditorApplication.isPlaying = false;
+    #endif
+  }
+
+  void OldFixedUpdate()
   {
     bool grounded = characterController.isGrounded;
     animator.SetBool("Grounded", grounded);

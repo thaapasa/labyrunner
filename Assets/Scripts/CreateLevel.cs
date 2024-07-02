@@ -20,7 +20,7 @@ public class CreateLevel : MonoBehaviour
   public Material nightSky;
   public bool godMode = false;
 
-  public float ghostProbability = 0.07f;
+  public float ghostProbability = 0.95f;
   public float gemProbability = 0.21f;
   public float healthProbability = 0.03f;
   public float chestProbability = 0.01f;
