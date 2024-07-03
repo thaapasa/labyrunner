@@ -18,7 +18,7 @@ public class EndingArea : MonoBehaviour
     if (other.gameObject.name == "Player")
     {
       Debug.Log("Player at ending area");
-      createLevel.nextLevel();
+      createLevel.NextLevel();
     }
   }
 

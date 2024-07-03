@@ -302,6 +302,45 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "GodMode",
+            "id": "f4f15953-b15f-4a8b-b521-4b23f04b1906",
+            "actions": [
+                {
+                    "name": "NextLevel",
+                    "type": "Button",
+                    "id": "07936f77-6dd8-48f0-9ba0-58713c6d7436",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "d78639d5-e14a-4eca-bf52-e66e19447d84",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "NextLevel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c9b6cbb4-4ad2-4f23-b2ae-dcfea534ab2c",
+                    "path": "<Keyboard>/n",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "NextLevel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []
