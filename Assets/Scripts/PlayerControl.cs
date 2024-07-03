@@ -1,150 +1,251 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerControl : MonoBehaviour
 {
-  CharacterController characterController;
-  Animator animator;
+  private PlayerInputActions inputActions;
+  private Vector3 direction;
+
+  private CharacterController characterController;
+  private Animator animator;
   public Camera playerCamera;
   public GameObject strikeEffect;
   public AudioClip[] swordAttackClips;
 
-
-  public float speed = 6.0f;
   public float jumpSpeed = 8.0f;
   public float gravity = 20.0f;
 
-  public float runTolerance = 5f;
+  public float acceleration = 15.0f;
+  public float walkSpeed = 5.0f;
+  public float runSpeed = 8.0f;
+  public float runTolerance = 5.2f;
+  public float rotationSpeed = 720.0f;
 
-  private float verticalSpeed = 0f;
+  private float currentSpeed = 0f;
+  private bool isGrounded = true;
+  private bool isRunning = false;
 
-  private Vector3 moveDirection = Vector3.zero;
+  private Vector3 targetDirection = Vector3.zero;
+  private Vector3 movementDirection = Vector3.zero;
+  public Vector3 playerVelocity = Vector3.zero;
 
   private AudioSource audioSource;
 
-  void Start()
+  private static GameObject _playerRef;
+
+  public static GameObject GetPlayer()
+  {
+    return _playerRef;
+  }
+
+  private void Awake()
   {
     _playerRef = gameObject;
+    inputActions = new PlayerInputActions();
     characterController = GetComponent<CharacterController>();
     animator = GetComponent<Animator>();
     audioSource = GetComponent<AudioSource>();
   }
 
-  private static GameObject _playerRef;
-  public static GameObject GetPlayer()
+  private void OnDestroy()
   {
-    if (_playerRef == null)
+    if (_playerRef == gameObject)
     {
-      _playerRef = GameObject.Find("Player");
+      _playerRef = null;
     }
-    return _playerRef;
   }
 
-  void FixedUpdate()
+  private void OnEnable()
   {
-    bool grounded = characterController.isGrounded;
-    animator.SetBool("Grounded", grounded);
+    inputActions.Gameplay.Enable();
+    inputActions.Gameplay.Move.performed += OnMove;
+    inputActions.Gameplay.Move.canceled += OnMove;
+    inputActions.Gameplay.Quit.performed += OnQuit;
+    inputActions.Gameplay.Run.performed += OnRun;
+    inputActions.Gameplay.Run.canceled += OnRun;
+    inputActions.Gameplay.Jump.performed += OnJump;
+    inputActions.Gameplay.Attack.performed += OnAttack;
+    inputActions.Gameplay.Teleport.performed += OnTeleport;
+    inputActions.Gameplay.Teleport.canceled += OnTeleport;
+    inputActions.Gameplay.PlacePortal.performed += OnPlacePortal;
+    inputActions.Gameplay.PlacePortal.canceled += OnPlacePortal;
+  }
 
-    #region ACTION
-    if (grounded)
+  private void OnDisable()
+  {
+    inputActions.Gameplay.Move.performed -= OnMove;
+    inputActions.Gameplay.Move.canceled -= OnMove;
+    inputActions.Gameplay.Quit.performed -= OnQuit;
+    inputActions.Gameplay.Run.performed -= OnRun;
+    inputActions.Gameplay.Run.canceled -= OnRun;
+    inputActions.Gameplay.Jump.performed -= OnJump;
+    inputActions.Gameplay.Attack.performed -= OnAttack;
+    inputActions.Gameplay.Teleport.performed -= OnTeleport;
+    inputActions.Gameplay.Teleport.canceled -= OnTeleport;
+    inputActions.Gameplay.PlacePortal.performed -= OnPlacePortal;
+    inputActions.Gameplay.PlacePortal.canceled -= OnPlacePortal;
+
+    inputActions.Gameplay.Disable();
+  }
+
+  private void OnMove(InputAction.CallbackContext context)
+  {
+    Vector2 input = context.ReadValue<Vector2>();
+    targetDirection = new Vector3(input.x, 0, input.y);
+  }
+
+  private void OnJump(InputAction.CallbackContext context)
+  {
+    if (isGrounded)
     {
-      if (Input.GetButtonDown("Fire"))
-      {
-        attackWithSword();
-      }
+      animator.SetBool("Jump", true);
+      playerVelocity.y += jumpSpeed;
+    }
+  }
 
-      // animator.SetBool("Guard", Input.GetButton("Block"));
+  private void OnAttack(InputAction.CallbackContext context)
+  {
+    if (isGrounded)
+    {
+      AttackWithSword();
+    }
+  }
 
-      if (Input.GetButtonDown("Teleport"))
+  private void OnTeleport(InputAction.CallbackContext context)
+  {
+    if (isGrounded)
+    {
+      if (context.ReadValueAsButton())
       {
         Debug.Log("Teleporting...");
         TeleportEffect.teleporting = true;
       }
-      if (Input.GetButtonUp("Teleport"))
+      else
       {
         TeleportEffect.teleporting = false;
       }
+    }
+  }
 
-      if (Input.GetButtonDown("PlacePortal"))
+  private void OnPlacePortal(InputAction.CallbackContext context)
+  {
+    if (isGrounded)
+    {
+      if (context.ReadValueAsButton())
       {
+        Debug.Log("Placing portal...");
         TeleportEffect.settingUp = true;
       }
-      if (Input.GetButtonUp("PlacePortal"))
+      else
       {
         TeleportEffect.settingUp = false;
       }
-
-      if (animator.GetCurrentAnimatorStateInfo(1).IsName("Sword_Iai") ||
-          animator.GetCurrentAnimatorStateInfo(1).IsName("Sword_Guard") ||
-          animator.GetCurrentAnimatorStateInfo(1).IsName("Sword_Store"))
-      {
-        return;
-      }
     }
-    #endregion
+  }
 
+  private void OnQuit(InputAction.CallbackContext context)
+  {
+    // Quit the game
+    Application.Quit();
+    #if UNITY_EDITOR
+    // Stop playing the scene in the Unity Editor
+    UnityEditor.EditorApplication.isPlaying = false;
+    #endif
+  }
 
-    #region MOVEMENT
-    float horizontal = Input.GetAxis("Horizontal");
-    float vertical = Input.GetAxis("Vertical");
+  private void OnRun(InputAction.CallbackContext context)
+  {
+    isRunning = context.ReadValueAsButton();
+  }
 
-    bool hasMovement = moveDirection.sqrMagnitude > 0.01f;
+  private void FixedUpdate()
+  {
+    float maxSpeed = isRunning ? runSpeed : walkSpeed;
 
-    if (grounded)
+    // Smoothly interpolate the movement direction
+    movementDirection = Vector3.Lerp(movementDirection, targetDirection, Time.fixedDeltaTime * acceleration);
+    // Calculate the current speed based on the smoothed direction
+    currentSpeed = Mathf.Lerp(currentSpeed, Mathf.Min(movementDirection.magnitude * maxSpeed, maxSpeed), Time.fixedDeltaTime * acceleration);
+    if (currentSpeed < 0.1f)
     {
-      verticalSpeed = 0;
-      Vector3 camForward = Vector3.Scale(playerCamera.transform.forward, new Vector3(1, 0, 1)).normalized;
-      moveDirection = camForward * vertical + playerCamera.transform.right * horizontal;
-      hasMovement = moveDirection.sqrMagnitude > 0.01f;
+      currentSpeed = 0f;
+    }
+  
+    bool hasMovement = currentSpeed > 0.1f;
+    
+    Vector3 move = movementDirection.normalized * currentSpeed;
 
+    // Apply gravity
+    playerVelocity.y -= gravity * Time.fixedDeltaTime;
+
+    move.y = playerVelocity.y;
+    // Move player. Only call this once each update!
+    characterController.Move(move * Time.fixedDeltaTime);
+    isGrounded = characterController.isGrounded;
+
+    // Reset fall speed after player has moved
+    if (isGrounded && playerVelocity.y < 0)
+    {
+      playerVelocity.y = 0f;
+    }
+
+    if (hasMovement)
+    {
+      // Rotate player towards movement
+      transform.rotation = Quaternion.LookRotation(movementDirection, Vector3.up);
+    }
+  }
+
+  private void Update()
+  {
+    UpdateAnimator();
+  }
+
+  private void UpdateAnimator()
+  {
+    bool hasMovement = currentSpeed > 0.1f;
+
+    if (animator.GetCurrentAnimatorStateInfo(1).IsName("Sword_Iai") ||
+        animator.GetCurrentAnimatorStateInfo(1).IsName("Sword_Guard") ||
+        animator.GetCurrentAnimatorStateInfo(1).IsName("Sword_Store"))
+    {
+      return;
+    }
+
+    animator.SetBool("Grounded", isGrounded);
+
+    if (isGrounded)
+    {
       animator.SetBool("Jump", false);
       animator.SetBool("Fall", false);
 
       if (hasMovement)
       {
         animator.SetBool("Move", true);
-        animator.SetBool("Run", moveDirection.sqrMagnitude > runTolerance);
+        animator.SetBool("Run", currentSpeed > runTolerance);
       }
       else
       {
         animator.SetBool("Move", false);
       }
-      if (Input.GetButton("Jump"))
-      {
-        verticalSpeed = jumpSpeed;
-        animator.SetBool("Jump", true);
-      }
     }
     else
     {
-      if (verticalSpeed < 0)
+      if (playerVelocity.y <= -0.1)
       {
         animator.SetBool("Fall", true);
+        animator.SetBool("Jump", false);
+      }
+      else
+      {
+        animator.SetBool("Jump", true);
       }
     }
-
-    if (hasMovement)
-    {
-      // Rotate player towards movement
-      transform.rotation = Quaternion.LookRotation(moveDirection, Vector3.up);
-    }
-
-    // Apply gravity. Gravity is multiplied by deltaTime twice (once here, and once below
-    // when the moveDirection is multiplied by deltaTime). This is because gravity should be applied
-    // as an acceleration (ms^-2)
-    if (!grounded)
-    {
-      verticalSpeed -= gravity * Time.fixedDeltaTime;
-    }
-
-    // Move the player
-    characterController.Move(moveDirection * speed * Time.fixedDeltaTime);
-    characterController.Move(Vector3.up * verticalSpeed * Time.fixedDeltaTime);
-    #endregion
   }
 
-  private void attackWithSword()
+  private void AttackWithSword()
   {
     animator.SetTrigger("Slash");
     GameObject effect = Instantiate(strikeEffect);
