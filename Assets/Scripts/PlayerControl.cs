@@ -5,14 +5,14 @@ using UnityEngine.InputSystem;
 
 public class PlayerControl : MonoBehaviour
 {
-  private PlayerInputActions inputActions;
+  private GameInputActions inputActions;
   private Vector3 direction;
 
   private CharacterController characterController;
   private Animator animator;
-  public Camera playerCamera;
   public GameObject strikeEffect;
   public AudioClip[] swordAttackClips;
+  public FixedJoystick joystick;
 
   public float jumpSpeed = 8.0f;
   public float gravity = 20.0f;
@@ -20,6 +20,7 @@ public class PlayerControl : MonoBehaviour
   public float acceleration = 15.0f;
   public float walkSpeed = 5.0f;
   public float runSpeed = 8.0f;
+  public float joySpeed = 8.0f;
   public float runTolerance = 5.2f;
   public float rotationSpeed = 720.0f;
 
@@ -27,7 +28,7 @@ public class PlayerControl : MonoBehaviour
   private bool isGrounded = true;
   private bool isRunning = false;
 
-  private Vector3 targetDirection = Vector3.zero;
+  private Vector3 directionFromInput = Vector3.zero;
   private Vector3 movementDirection = Vector3.zero;
   public Vector3 playerVelocity = Vector3.zero;
 
@@ -43,7 +44,7 @@ public class PlayerControl : MonoBehaviour
   private void Awake()
   {
     _playerRef = gameObject;
-    inputActions = new PlayerInputActions();
+    inputActions = new GameInputActions();
     characterController = GetComponent<CharacterController>();
     animator = GetComponent<Animator>();
     audioSource = GetComponent<AudioSource>();
@@ -93,7 +94,7 @@ public class PlayerControl : MonoBehaviour
   private void OnMove(InputAction.CallbackContext context)
   {
     Vector2 input = context.ReadValue<Vector2>();
-    targetDirection = new Vector3(input.x, 0, input.y);
+    directionFromInput = new Vector3(input.x, 0, input.y);
   }
 
   private void OnJump(InputAction.CallbackContext context)
@@ -107,41 +108,59 @@ public class PlayerControl : MonoBehaviour
 
   private void OnAttack(InputAction.CallbackContext context)
   {
+    TriggerAttack();
+  }
+
+  public void TriggerAttack()
+  {
     if (isGrounded)
     {
       AttackWithSword();
     }
   }
 
+
   private void OnTeleport(InputAction.CallbackContext context)
   {
-    if (isGrounded)
+    TriggerTeleport(context.ReadValueAsButton());
+  }
+
+  public void TriggerTeleport(bool doTeleport)
+  {
+    if (!isGrounded)
     {
-      if (context.ReadValueAsButton())
-      {
-        Debug.Log("Teleporting...");
-        TeleportEffect.teleporting = true;
-      }
-      else
-      {
-        TeleportEffect.teleporting = false;
-      }
+      return;
+    }
+    if (doTeleport)
+    {
+      Debug.Log("Teleporting...");
+      TeleportEffect.teleporting = true;
+    }
+    else
+    {
+      TeleportEffect.teleporting = false;
     }
   }
 
   private void OnPlacePortal(InputAction.CallbackContext context)
   {
-    if (isGrounded)
+    TriggerPlacePortal(context.ReadValueAsButton());
+  }
+
+  public void TriggerPlacePortal(bool doPlace)
+  {
+    if (!isGrounded)
     {
-      if (context.ReadValueAsButton())
-      {
-        Debug.Log("Placing portal...");
-        TeleportEffect.settingUp = true;
-      }
-      else
-      {
-        TeleportEffect.settingUp = false;
-      }
+      return;
+    }
+    if (doPlace)
+    {
+      Debug.Log("Placing portal...");
+      TeleportEffect.settingUp = true;
+    }
+    else
+    {
+      TeleportEffect.settingUp = false;
     }
   }
 
@@ -160,9 +179,36 @@ public class PlayerControl : MonoBehaviour
     isRunning = context.ReadValueAsButton();
   }
 
+  private Vector3 GetTargetDirection()
+  {
+    if (joystick == null)
+    {
+      return directionFromInput;
+    }
+    float joyHorizontal = joystick.Horizontal;
+    float joyVertical = joystick.Vertical;
+    if (joyHorizontal == 0f && joyVertical == 0f)
+    {
+      return directionFromInput;
+    }
+    return new Vector3(joyHorizontal, 0.0f, joyVertical);
+  }
+
+  private float GetMaxSpeed()
+  {
+    float joyHorizontal = joystick.Horizontal;
+    float joyVertical = joystick.Vertical;
+    if (joyHorizontal != 0f || joyVertical != 0f)
+    {
+      return joySpeed;
+    }
+    return isRunning ? runSpeed : walkSpeed;
+  }
+
   private void FixedUpdate()
   {
-    float maxSpeed = isRunning ? runSpeed : walkSpeed;
+    Vector3 targetDirection = GetTargetDirection();
+    float maxSpeed = GetMaxSpeed();
 
     // Smoothly interpolate the movement direction
     movementDirection = Vector3.Lerp(movementDirection, targetDirection, Time.fixedDeltaTime * acceleration);

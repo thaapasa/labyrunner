@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public class CreateLevel : MonoBehaviour
 {
@@ -19,6 +20,8 @@ public class CreateLevel : MonoBehaviour
   public Material daySky;
   public Material nightSky;
   public bool godMode = false;
+
+  private GameInputActions inputActions;
 
   public float ghostProbability = 0.95f;
   public float gemProbability = 0.21f;
@@ -73,8 +76,14 @@ public class CreateLevel : MonoBehaviour
   }
 
   private static bool godModePersisted = false;
+
+  private void Awake()
+  {
+    inputActions = new GameInputActions();
+  }
+
   // Start is called before the first frame update
-  void Start()
+  private void Start()
   {
     godMode = godModePersisted;
     Debug.Log("Creating level " + level + ", original " + labyrinthWidth + "x" + labyrinthHeight);
@@ -131,6 +140,21 @@ public class CreateLevel : MonoBehaviour
     createItems();
     createDecorations();
   }
+
+
+  private void OnEnable()
+  {
+    inputActions.GodMode.Enable();
+    inputActions.GodMode.NextLevel.performed += OnNextLevel;
+  }
+
+  private void OnDisable()
+  {
+    inputActions.GodMode.NextLevel.performed -= OnNextLevel;
+    
+    inputActions.GodMode.Disable();
+  }
+
 
   private void createItems()
   {
@@ -281,7 +305,15 @@ public class CreateLevel : MonoBehaviour
     f.transform.position = new Vector3(xpos, 0, ypos) + levelOffset;
   }
 
-  public void nextLevel()
+  private void OnNextLevel(InputAction.CallbackContext context)
+  {
+    if (godMode)
+    {
+      NextLevel();
+    }
+  }
+
+  public void NextLevel()
   {
     PlayerControl.GetPlayer().GetComponent<PlayerScore>().addScore(levelFinishScore * (int) Mathf.Pow(1.5f, level - 1));
     godModePersisted = godMode;
@@ -289,11 +321,4 @@ public class CreateLevel : MonoBehaviour
     SceneManager.LoadScene("Game");
   }
 
-  void Update()
-  {
-    if (Input.GetKeyDown(KeyCode.N) && godMode)
-    {
-      nextLevel();
-    }
-  }
 }
