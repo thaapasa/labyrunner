@@ -23,8 +23,8 @@ public class PlayerControl : MonoBehaviour
   public float runTolerance = 5.2f;
   public float rotationSpeed = 720.0f;
 
-  public float currentSpeed = 0f;
-  public bool isGrounded;
+  private float currentSpeed = 0f;
+  private bool isGrounded = true;
   private bool isRunning = false;
 
   private Vector3 targetDirection = Vector3.zero;
@@ -67,6 +67,10 @@ public class PlayerControl : MonoBehaviour
     inputActions.Gameplay.Run.canceled += OnRun;
     inputActions.Gameplay.Jump.performed += OnJump;
     inputActions.Gameplay.Attack.performed += OnAttack;
+    inputActions.Gameplay.Teleport.performed += OnTeleport;
+    inputActions.Gameplay.Teleport.canceled += OnTeleport;
+    inputActions.Gameplay.PlacePortal.performed += OnPlacePortal;
+    inputActions.Gameplay.PlacePortal.canceled += OnPlacePortal;
   }
 
   private void OnDisable()
@@ -78,6 +82,10 @@ public class PlayerControl : MonoBehaviour
     inputActions.Gameplay.Run.canceled -= OnRun;
     inputActions.Gameplay.Jump.performed -= OnJump;
     inputActions.Gameplay.Attack.performed -= OnAttack;
+    inputActions.Gameplay.Teleport.performed -= OnTeleport;
+    inputActions.Gameplay.Teleport.canceled -= OnTeleport;
+    inputActions.Gameplay.PlacePortal.performed -= OnPlacePortal;
+    inputActions.Gameplay.PlacePortal.canceled -= OnPlacePortal;
 
     inputActions.Gameplay.Disable();
   }
@@ -105,10 +113,56 @@ public class PlayerControl : MonoBehaviour
     }
   }
 
+  private void OnTeleport(InputAction.CallbackContext context)
+  {
+    if (isGrounded)
+    {
+      if (context.ReadValueAsButton())
+      {
+        Debug.Log("Teleporting...");
+        TeleportEffect.teleporting = true;
+      }
+      else
+      {
+        TeleportEffect.teleporting = false;
+      }
+    }
+  }
+
+  private void OnPlacePortal(InputAction.CallbackContext context)
+  {
+    if (isGrounded)
+    {
+      if (context.ReadValueAsButton())
+      {
+        Debug.Log("Placing portal...");
+        TeleportEffect.settingUp = true;
+      }
+      else
+      {
+        TeleportEffect.settingUp = false;
+      }
+    }
+  }
+
+  private void OnQuit(InputAction.CallbackContext context)
+  {
+    // Quit the game
+    Application.Quit();
+    #if UNITY_EDITOR
+    // Stop playing the scene in the Unity Editor
+    UnityEditor.EditorApplication.isPlaying = false;
+    #endif
+  }
+
+  private void OnRun(InputAction.CallbackContext context)
+  {
+    isRunning = context.ReadValueAsButton();
+  }
+
   private void FixedUpdate()
   {
     float maxSpeed = isRunning ? runSpeed : walkSpeed;
-
 
     // Smoothly interpolate the movement direction
     movementDirection = Vector3.Lerp(movementDirection, targetDirection, Time.fixedDeltaTime * acceleration);
@@ -144,8 +198,21 @@ public class PlayerControl : MonoBehaviour
     }
   }
 
-  private void Update() {
+  private void Update()
+  {
+    UpdateAnimator();
+  }
+
+  private void UpdateAnimator()
+  {
     bool hasMovement = currentSpeed > 0.1f;
+
+    if (animator.GetCurrentAnimatorStateInfo(1).IsName("Sword_Iai") ||
+        animator.GetCurrentAnimatorStateInfo(1).IsName("Sword_Guard") ||
+        animator.GetCurrentAnimatorStateInfo(1).IsName("Sword_Store"))
+    {
+      return;
+    }
 
     animator.SetBool("Grounded", isGrounded);
 
@@ -177,116 +244,6 @@ public class PlayerControl : MonoBehaviour
       }
     }
   }
-
-  private void OnQuit(InputAction.CallbackContext context)
-  {
-    // Quit the game
-    Application.Quit();
-    #if UNITY_EDITOR
-    // Stop playing the scene in the Unity Editor
-    UnityEditor.EditorApplication.isPlaying = false;
-    #endif
-  }
-
-  private void OnRun(InputAction.CallbackContext context)
-  {
-    isRunning = context.ReadValueAsButton();
-  }
-
-/*
-  void OldFixedUpdate()
-  {
-
-    #region ACTION
-    if (grounded)
-    {
-      if (Input.GetButtonDown("Fire"))
-      {
-        attackWithSword();
-      }
-
-      // animator.SetBool("Guard", Input.GetButton("Block"));
-
-      if (Input.GetButtonDown("Teleport"))
-      {
-        Debug.Log("Teleporting...");
-        TeleportEffect.teleporting = true;
-      }
-      if (Input.GetButtonUp("Teleport"))
-      {
-        TeleportEffect.teleporting = false;
-      }
-
-      if (Input.GetButtonDown("PlacePortal"))
-      {
-        TeleportEffect.settingUp = true;
-      }
-      if (Input.GetButtonUp("PlacePortal"))
-      {
-        TeleportEffect.settingUp = false;
-      }
-
-      if (animator.GetCurrentAnimatorStateInfo(1).IsName("Sword_Iai") ||
-          animator.GetCurrentAnimatorStateInfo(1).IsName("Sword_Guard") ||
-          animator.GetCurrentAnimatorStateInfo(1).IsName("Sword_Store"))
-      {
-        return;
-      }
-    }
-    #endregion
-
-
-    #region MOVEMENT
-    float horizontal = Input.GetAxis("Horizontal");
-    float vertical = Input.GetAxis("Vertical");
-
-    bool hasMovement = moveDirection.sqrMagnitude > 0.01f;
-
-    if (grounded)
-    {
-      verticalSpeed = 0;
-      Vector3 camForward = Vector3.Scale(playerCamera.transform.forward, new Vector3(1, 0, 1)).normalized;
-      moveDirection = camForward * vertical + playerCamera.transform.right * horizontal;
-      hasMovement = moveDirection.sqrMagnitude > 0.01f;
-
-      animator.SetBool("Jump", false);
-      animator.SetBool("Fall", false);
-
-      if (hasMovement)
-      {
-        animator.SetBool("Move", true);
-        animator.SetBool("Run", moveDirection.sqrMagnitude > runTolerance);
-      }
-      else
-      {
-        animator.SetBool("Move", false);
-      }
-      if (Input.GetButton("Jump"))
-      {
-        verticalSpeed = jumpSpeed;
-        animator.SetBool("Jump", true);
-      }
-    }
-    else
-    {
-      if (verticalSpeed < 0)
-      {
-        animator.SetBool("Fall", true);
-      }
-    }
-
-    if (hasMovement)
-    {
-      // Rotate player towards movement
-      transform.rotation = Quaternion.LookRotation(moveDirection, Vector3.up);
-    }
-
-    // Move the player
-    characterController.Move(moveDirection * speed * Time.fixedDeltaTime);
-    characterController.Move(Vector3.up * verticalSpeed * Time.fixedDeltaTime);
-    #endregion
-  }
-  */
 
   private void AttackWithSword()
   {
