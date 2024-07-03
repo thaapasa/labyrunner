@@ -66,6 +66,7 @@ public class PlayerControl : MonoBehaviour
     inputActions.Gameplay.Run.performed += OnRun;
     inputActions.Gameplay.Run.canceled += OnRun;
     inputActions.Gameplay.Jump.performed += OnJump;
+    inputActions.Gameplay.Attack.performed += OnAttack;
   }
 
   private void OnDisable()
@@ -76,6 +77,7 @@ public class PlayerControl : MonoBehaviour
     inputActions.Gameplay.Run.performed -= OnRun;
     inputActions.Gameplay.Run.canceled -= OnRun;
     inputActions.Gameplay.Jump.performed -= OnJump;
+    inputActions.Gameplay.Attack.performed -= OnAttack;
 
     inputActions.Gameplay.Disable();
   }
@@ -92,6 +94,14 @@ public class PlayerControl : MonoBehaviour
     {
       animator.SetBool("Jump", true);
       playerVelocity.y += jumpSpeed;
+    }
+  }
+
+  private void OnAttack(InputAction.CallbackContext context)
+  {
+    if (isGrounded)
+    {
+      AttackWithSword();
     }
   }
 
@@ -278,7 +288,7 @@ public class PlayerControl : MonoBehaviour
   }
   */
 
-  private void attackWithSword()
+  private void AttackWithSword()
   {
     animator.SetTrigger("Slash");
     GameObject effect = Instantiate(strikeEffect);
