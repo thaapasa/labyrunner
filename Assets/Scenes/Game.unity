@@ -853,6 +853,11 @@ PrefabInstance:
       propertyPath: m_Center.y
       value: 0.9
       objectReference: {fileID: 0}
+    - target: {fileID: 143996123754013952, guid: e209b9e719437e145951c42cb3c16ae4,
+        type: 3}
+      propertyPath: m_SkinWidth
+      value: 0.08
+      objectReference: {fileID: 0}
     - target: {fileID: 1042654935802812337, guid: e209b9e719437e145951c42cb3c16ae4,
         type: 3}
       propertyPath: EmissionModule.enabled
@@ -1170,6 +1175,8 @@ MonoBehaviour:
   runTolerance: 5.2
   rotationSpeed: 720
   currentSpeed: 0
+  isGrounded: 0
+  playerVelocity: {x: 0, y: 0, z: 0}
 --- !u!114 &903192328
 MonoBehaviour:
   m_ObjectHideFlags: 0

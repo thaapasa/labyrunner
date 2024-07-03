@@ -23,13 +23,13 @@ public class PlayerControl : MonoBehaviour
   public float runTolerance = 5.2f;
   public float rotationSpeed = 720.0f;
 
-  private float verticalSpeed = 0f;
   public float currentSpeed = 0f;
+  public bool isGrounded;
   private bool isRunning = false;
 
   private Vector3 targetDirection = Vector3.zero;
   private Vector3 movementDirection = Vector3.zero;
-  private Vector3 playerVelocity = Vector3.zero;
+  public Vector3 playerVelocity = Vector3.zero;
 
   private AudioSource audioSource;
 
@@ -65,6 +65,7 @@ public class PlayerControl : MonoBehaviour
     inputActions.Gameplay.Quit.performed += OnQuit;
     inputActions.Gameplay.Run.performed += OnRun;
     inputActions.Gameplay.Run.canceled += OnRun;
+    inputActions.Gameplay.Jump.performed += OnJump;
   }
 
   private void OnDisable()
@@ -74,6 +75,7 @@ public class PlayerControl : MonoBehaviour
     inputActions.Gameplay.Quit.performed -= OnQuit;
     inputActions.Gameplay.Run.performed -= OnRun;
     inputActions.Gameplay.Run.canceled -= OnRun;
+    inputActions.Gameplay.Jump.performed -= OnJump;
 
     inputActions.Gameplay.Disable();
   }
@@ -84,30 +86,46 @@ public class PlayerControl : MonoBehaviour
     targetDirection = new Vector3(input.x, 0, input.y);
   }
 
+  private void OnJump(InputAction.CallbackContext context)
+  {
+    if (isGrounded)
+    {
+      animator.SetBool("Jump", true);
+      playerVelocity.y += jumpSpeed;
+    }
+  }
+
   private void FixedUpdate()
   {
     float maxSpeed = isRunning ? runSpeed : walkSpeed;
-    bool grounded = characterController.isGrounded;
 
-    animator.SetBool("Grounded", grounded);
 
     // Smoothly interpolate the movement direction
     movementDirection = Vector3.Lerp(movementDirection, targetDirection, Time.fixedDeltaTime * acceleration);
     // Calculate the current speed based on the smoothed direction
     currentSpeed = Mathf.Lerp(currentSpeed, Mathf.Min(movementDirection.magnitude * maxSpeed, maxSpeed), Time.fixedDeltaTime * acceleration);
+    if (currentSpeed < 0.1f)
+    {
+      currentSpeed = 0f;
+    }
   
     bool hasMovement = currentSpeed > 0.1f;
     
-    characterController.Move(movementDirection.normalized * currentSpeed * Time.fixedDeltaTime);
+    Vector3 move = movementDirection.normalized * currentSpeed;
 
     // Apply gravity
-    if (grounded && playerVelocity.y < 0)
+    playerVelocity.y -= gravity * Time.fixedDeltaTime;
+
+    move.y = playerVelocity.y;
+    // Move player. Only call this once each update!
+    characterController.Move(move * Time.fixedDeltaTime);
+    isGrounded = characterController.isGrounded;
+
+    // Reset fall speed after player has moved
+    if (isGrounded && playerVelocity.y < 0)
     {
       playerVelocity.y = 0f;
     }
-
-    playerVelocity.y -= gravity * Time.fixedDeltaTime;
-    characterController.Move(playerVelocity * Time.fixedDeltaTime);
 
     if (hasMovement)
     {
@@ -117,13 +135,12 @@ public class PlayerControl : MonoBehaviour
   }
 
   private void Update() {
-    bool grounded = characterController.isGrounded;
     bool hasMovement = currentSpeed > 0.1f;
 
-    if (grounded)
-    {
-      verticalSpeed = 0;
+    animator.SetBool("Grounded", isGrounded);
 
+    if (isGrounded)
+    {
       animator.SetBool("Jump", false);
       animator.SetBool("Fall", false);
 
@@ -139,9 +156,14 @@ public class PlayerControl : MonoBehaviour
     }
     else
     {
-      if (verticalSpeed < 0)
+      if (playerVelocity.y <= -0.1)
       {
         animator.SetBool("Fall", true);
+        animator.SetBool("Jump", false);
+      }
+      else
+      {
+        animator.SetBool("Jump", true);
       }
     }
   }
