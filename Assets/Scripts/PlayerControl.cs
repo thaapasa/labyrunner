@@ -119,35 +119,48 @@ public class PlayerControl : MonoBehaviour
     }
   }
 
+
   private void OnTeleport(InputAction.CallbackContext context)
   {
-    if (isGrounded)
+    TriggerTeleport(context.ReadValueAsButton());
+  }
+
+  public void TriggerTeleport(bool doTeleport)
+  {
+    if (!isGrounded)
     {
-      if (context.ReadValueAsButton())
-      {
-        Debug.Log("Teleporting...");
-        TeleportEffect.teleporting = true;
-      }
-      else
-      {
-        TeleportEffect.teleporting = false;
-      }
+      return;
+    }
+    if (doTeleport)
+    {
+      Debug.Log("Teleporting...");
+      TeleportEffect.teleporting = true;
+    }
+    else
+    {
+      TeleportEffect.teleporting = false;
     }
   }
 
   private void OnPlacePortal(InputAction.CallbackContext context)
   {
-    if (isGrounded)
+    TriggerPlacePortal(context.ReadValueAsButton());
+  }
+
+  public void TriggerPlacePortal(bool doPlace)
+  {
+    if (!isGrounded)
     {
-      if (context.ReadValueAsButton())
-      {
-        Debug.Log("Placing portal...");
-        TeleportEffect.settingUp = true;
-      }
-      else
-      {
-        TeleportEffect.settingUp = false;
-      }
+      return;
+    }
+    if (doPlace)
+    {
+      Debug.Log("Placing portal...");
+      TeleportEffect.settingUp = true;
+    }
+    else
+    {
+      TeleportEffect.settingUp = false;
     }
   }
 
