@@ -8,26 +8,37 @@ public class PlayerControl : MonoBehaviour
   private PlayerInputActions inputActions;
   private Vector3 direction;
 
-  CharacterController characterController;
-  Animator animator;
+  private CharacterController characterController;
+  private Animator animator;
   public Camera playerCamera;
   public GameObject strikeEffect;
   public AudioClip[] swordAttackClips;
 
-
-  public float speed = 6.0f;
   public float jumpSpeed = 8.0f;
   public float gravity = 20.0f;
 
-  public float runTolerance = 5f;
+  public float acceleration = 15.0f;
+  public float walkSpeed = 5.0f;
+  public float runSpeed = 8.0f;
+  public float runTolerance = 5.2f;
+  public float rotationSpeed = 720.0f;
 
   private float verticalSpeed = 0f;
+  public float currentSpeed = 0f;
+  private bool isRunning = false;
 
-  private Vector3 moveDirection = Vector3.zero;
+  private Vector3 targetDirection = Vector3.zero;
+  private Vector3 movementDirection = Vector3.zero;
+  private Vector3 playerVelocity = Vector3.zero;
 
   private AudioSource audioSource;
 
   private static GameObject _playerRef;
+
+  public static GameObject GetPlayer()
+  {
+    return _playerRef;
+  }
 
   private void Awake()
   {
@@ -52,6 +63,8 @@ public class PlayerControl : MonoBehaviour
     inputActions.Gameplay.Move.performed += OnMove;
     inputActions.Gameplay.Move.canceled += OnMove;
     inputActions.Gameplay.Quit.performed += OnQuit;
+    inputActions.Gameplay.Run.performed += OnRun;
+    inputActions.Gameplay.Run.canceled += OnRun;
   }
 
   private void OnDisable()
@@ -59,28 +72,78 @@ public class PlayerControl : MonoBehaviour
     inputActions.Gameplay.Move.performed -= OnMove;
     inputActions.Gameplay.Move.canceled -= OnMove;
     inputActions.Gameplay.Quit.performed -= OnQuit;
-    inputActions.Gameplay.Disable();
-  }
+    inputActions.Gameplay.Run.performed -= OnRun;
+    inputActions.Gameplay.Run.canceled -= OnRun;
 
-  public static GameObject GetPlayer()
-  {
-    return _playerRef;
+    inputActions.Gameplay.Disable();
   }
 
   private void OnMove(InputAction.CallbackContext context)
   {
     Vector2 input = context.ReadValue<Vector2>();
-    direction = new Vector3(input.x, 0, input.y);
+    targetDirection = new Vector3(input.x, 0, input.y);
   }
 
-  private void Update()
+  private void FixedUpdate()
   {
-    characterController.Move(direction * Time.deltaTime);
+    float maxSpeed = isRunning ? runSpeed : walkSpeed;
+    bool grounded = characterController.isGrounded;
+
+    animator.SetBool("Grounded", grounded);
+
+    // Smoothly interpolate the movement direction
+    movementDirection = Vector3.Lerp(movementDirection, targetDirection, Time.fixedDeltaTime * acceleration);
+    // Calculate the current speed based on the smoothed direction
+    currentSpeed = Mathf.Lerp(currentSpeed, Mathf.Min(movementDirection.magnitude * maxSpeed, maxSpeed), Time.fixedDeltaTime * acceleration);
+  
+    bool hasMovement = currentSpeed > 0.1f;
+    
+    characterController.Move(movementDirection.normalized * currentSpeed * Time.fixedDeltaTime);
+
+    // Apply gravity
+    if (grounded && playerVelocity.y < 0)
+    {
+      playerVelocity.y = 0f;
+    }
+
+    playerVelocity.y -= gravity * Time.fixedDeltaTime;
+    characterController.Move(playerVelocity * Time.fixedDeltaTime);
+
+    if (hasMovement)
+    {
+      // Rotate player towards movement
+      transform.rotation = Quaternion.LookRotation(movementDirection, Vector3.up);
+    }
   }
 
-  public Vector3 GetInputTranslationDirection()
-  {
-    return direction;
+  private void Update() {
+    bool grounded = characterController.isGrounded;
+    bool hasMovement = currentSpeed > 0.1f;
+
+    if (grounded)
+    {
+      verticalSpeed = 0;
+
+      animator.SetBool("Jump", false);
+      animator.SetBool("Fall", false);
+
+      if (hasMovement)
+      {
+        animator.SetBool("Move", true);
+        animator.SetBool("Run", currentSpeed > runTolerance);
+      }
+      else
+      {
+        animator.SetBool("Move", false);
+      }
+    }
+    else
+    {
+      if (verticalSpeed < 0)
+      {
+        animator.SetBool("Fall", true);
+      }
+    }
   }
 
   private void OnQuit(InputAction.CallbackContext context)
@@ -93,10 +156,14 @@ public class PlayerControl : MonoBehaviour
     #endif
   }
 
+  private void OnRun(InputAction.CallbackContext context)
+  {
+    isRunning = context.ReadValueAsButton();
+  }
+
+/*
   void OldFixedUpdate()
   {
-    bool grounded = characterController.isGrounded;
-    animator.SetBool("Grounded", grounded);
 
     #region ACTION
     if (grounded)
@@ -182,19 +249,12 @@ public class PlayerControl : MonoBehaviour
       transform.rotation = Quaternion.LookRotation(moveDirection, Vector3.up);
     }
 
-    // Apply gravity. Gravity is multiplied by deltaTime twice (once here, and once below
-    // when the moveDirection is multiplied by deltaTime). This is because gravity should be applied
-    // as an acceleration (ms^-2)
-    if (!grounded)
-    {
-      verticalSpeed -= gravity * Time.fixedDeltaTime;
-    }
-
     // Move the player
     characterController.Move(moveDirection * speed * Time.fixedDeltaTime);
     characterController.Move(Vector3.up * verticalSpeed * Time.fixedDeltaTime);
     #endregion
   }
+  */
 
   private void attackWithSword()
   {
