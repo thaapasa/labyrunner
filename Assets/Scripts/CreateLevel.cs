@@ -85,6 +85,8 @@ public class CreateLevel : MonoBehaviour
   // Start is called before the first frame update
   private void Start()
   {
+    Application.targetFrameRate = 60;
+  
     godMode = godModePersisted;
     Debug.Log("Creating level " + level + ", original " + labyrinthWidth + "x" + labyrinthHeight);
     labyrinthWidth += (level - 1) * 2;
