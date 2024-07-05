@@ -78,6 +78,11 @@ public class CreateLevel : MonoBehaviour
 
   private static bool godModePersisted = false;
 
+  public int GetLevel()
+  {
+    return level;
+  }
+
   private void Awake()
   {
     inputActions = new GameInputActions();

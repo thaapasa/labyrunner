@@ -35,7 +35,9 @@ public class PlayerHealth : MonoBehaviour
 
       if (health < 1)
       {
-        level.GetComponent<GameOverHandler>().OnGameOver();
+        int curLevel = level.GetComponent<CreateLevel>().GetLevel();
+        int score = PlayerControl.GetPlayer().GetComponent<PlayerScore>().GetScore();
+        level.GetComponent<GameOverHandler>().OnGameOver(curLevel, score);
       }
     }
   }

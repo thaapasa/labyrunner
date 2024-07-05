@@ -15,6 +15,11 @@ public class PlayerScore : MonoBehaviour
     score = 0;
   }
 
+  public int GetScore()
+  {
+    return score;
+  }
+
   // Start is called before the first frame update
   void Start()
   {
