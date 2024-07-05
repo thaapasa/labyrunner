@@ -44,6 +44,7 @@ public class CreateLevel : MonoBehaviour
   private Vector3 levelOffset;
 
   public static int level = 1;
+  public static int healthAtStart = 3;
 
   // Wall to: SOUTH, WEST, NORTH, EAST
   // Is pointing: NORTH, EAST, SOUTH, WEST
@@ -86,6 +87,8 @@ public class CreateLevel : MonoBehaviour
   private void Start()
   {
     Application.targetFrameRate = 60;
+
+    PlayerControl.GetPlayer().GetComponent<PlayerHealth>().SetHealth(healthAtStart);
   
     godMode = godModePersisted;
     Debug.Log("Creating level " + level + ", original " + labyrinthWidth + "x" + labyrinthHeight);
@@ -317,7 +320,9 @@ public class CreateLevel : MonoBehaviour
 
   public void NextLevel()
   {
-    PlayerControl.GetPlayer().GetComponent<PlayerScore>().addScore(levelFinishScore * (int) Mathf.Pow(1.5f, level - 1));
+    GameObject player = PlayerControl.GetPlayer();
+    player.GetComponent<PlayerScore>().addScore(levelFinishScore * (int) Mathf.Pow(1.5f, level - 1));
+    healthAtStart = player.GetComponent<PlayerHealth>().GetHealth();
     godModePersisted = godMode;
     level = level + 1;
     SceneManager.LoadScene("Game");

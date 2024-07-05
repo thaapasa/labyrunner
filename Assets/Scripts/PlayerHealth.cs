@@ -22,24 +22,34 @@ public class PlayerHealth : MonoBehaviour
     {
       health = startHealth;
     }
-    updateUIIcons();
+    UpdateUIIcons();
   }
 
-  public void damagePlayer()
+  public void DamagePlayer()
   {
     if (health > 0)
     {
       health--;
-      updateUIIcons();
+      UpdateUIIcons();
     }
   }
 
-  public bool giveHealth()
+  public int GetHealth()
+  {
+    return health;
+  }
+
+  public void SetHealth(int newHealth)
+  {
+    health = newHealth;
+  }
+
+  public bool GiveHealth()
   {
     if (health < maxHealth)
     {
       health++;
-      updateUIIcons();
+      UpdateUIIcons();
       return true;
     }
     else
@@ -53,7 +63,7 @@ public class PlayerHealth : MonoBehaviour
     return health >= maxHealth;  
   }
 
-  void updateUIIcons()
+  void UpdateUIIcons()
   {
     if (ui == null) { return; }
     while (healthIcons.Count < health)

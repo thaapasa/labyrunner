@@ -42,7 +42,7 @@ public class HealthPotion : MonoBehaviour
   {
     if (other.gameObject.name == "Player")
     {
-      if (health.giveHealth())
+      if (health.GiveHealth())
       {
         GameObject ef = Instantiate(effect);
         ef.transform.position = gameObject.transform.position;

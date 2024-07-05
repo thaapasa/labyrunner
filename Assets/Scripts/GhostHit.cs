@@ -45,7 +45,7 @@ public class GhostHit : MonoBehaviour
     if (other.gameObject.name == "Player" && !hasDied)
     {
       Debug.Log("Collision with ghost");
-      other.gameObject.GetComponent<PlayerHealth>().damagePlayer();
+      other.gameObject.GetComponent<PlayerHealth>().DamagePlayer();
 
       GameObject effect = Instantiate(deathEffect);
       effect.transform.position = gameObject.transform.position;
