@@ -13,6 +13,15 @@ public class HealthPotion : MonoBehaviour
   private float yOffs = 0;
   private float ticker = 0;
 
+  private PlayerHealth health;
+  private AttractToPlayer attractor;
+
+  void Awake()
+  {
+    this.health = PlayerControl.GetPlayer().GetComponent<PlayerHealth>();
+    this.attractor = new AttractToPlayer(gameObject, PlayerControl.GetPlayer());
+  }
+
   void Start()
   {
     yOffs = this.transform.position.y;
@@ -22,13 +31,18 @@ public class HealthPotion : MonoBehaviour
   {
     ticker += Time.deltaTime * bounceSpeed;
     transform.position = new Vector3(transform.position.x, yOffs + Mathf.Sin(ticker) * 0.15f, transform.position.z);
+    
+    if (!health.isAtMaxHealth())
+    {
+      attractor.Update();
+    }
   }
 
   private void OnTriggerEnter(Collider other)
   {
     if (other.gameObject.name == "Player")
     {
-      if (other.gameObject.GetComponent<PlayerHealth>().giveHealth())
+      if (health.giveHealth())
       {
         GameObject ef = Instantiate(effect);
         ef.transform.position = gameObject.transform.position;

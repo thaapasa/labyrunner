@@ -48,6 +48,11 @@ public class PlayerHealth : MonoBehaviour
     }
   }
 
+  public bool isAtMaxHealth()
+  {
+    return health >= maxHealth;  
+  }
+
   void updateUIIcons()
   {
     if (ui == null) { return; }
