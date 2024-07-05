@@ -83,6 +83,14 @@ public class CreateLevel : MonoBehaviour
     inputActions = new GameInputActions();
   }
 
+  public void OnNewGame()
+  {
+    level = 1;
+    healthAtStart = 3;
+    PlayerControl.GetPlayer().GetComponent<PlayerScore>().Reset();
+    SceneManager.LoadScene("Game");
+  }
+
   // Start is called before the first frame update
   private void Start()
   {

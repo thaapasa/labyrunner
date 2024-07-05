@@ -10,6 +10,7 @@ public class PlayerHealth : MonoBehaviour
 
   public GameObject ui;
   public GameObject healthIcon;
+  public GameObject level;
 
   private List<GameObject> healthIcons = new List<GameObject>();
 
@@ -31,6 +32,11 @@ public class PlayerHealth : MonoBehaviour
     {
       health--;
       UpdateUIIcons();
+
+      if (health < 1)
+      {
+        level.GetComponent<GameOverHandler>().OnGameOver();
+      }
     }
   }
 

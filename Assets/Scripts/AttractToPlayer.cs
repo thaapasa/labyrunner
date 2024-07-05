@@ -6,6 +6,7 @@ public class AttractToPlayer
   private Transform player;
   private float attractionDistanceSqr = 4;
   private float attractionSpeed = 4;
+  private float maxSpeed = 10;
   private bool hasSeenPlayer = false;
 
   public AttractToPlayer(GameObject target, GameObject player)
@@ -21,7 +22,9 @@ public class AttractToPlayer
     if (hasSeenPlayer || distanceToPlayerSqr < attractionDistanceSqr)
     {
       hasSeenPlayer = true;
-        target.position = Vector3.MoveTowards(target.position, player.position, attractionSpeed * Time.deltaTime);
+      target.position = Vector3.MoveTowards(target.position, player.position, attractionSpeed * Time.deltaTime);
     }
+
+    attractionSpeed = Mathf.Min(attractionSpeed + Time.deltaTime, maxSpeed);
   }
 }
