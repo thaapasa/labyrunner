@@ -37,7 +37,7 @@ public class FPSCalc : MonoBehaviour
 
     // Calculate and display the average FPS
     float averageFPS = 1.0f / averageFrameTime;
-    updateUI((int) averageFPS);
+    updateUI((int) Mathf.Round(averageFPS));
   }
 
   private void updateUI(int fps)
