@@ -65,7 +65,14 @@ sysinfo.txt
 crashlytics-build.properties
 
 .vscode
-/UserSettings/Layouts/
+/UserSettings/
+
+# Unity lightmap / reflection probe bake output
+**/Lightmap-*
+**/ReflectionProbe-*
+**/LightingData.asset*
+**/NavMesh.asset*
+/Assets/Scenes/Game.meta
 
 /Assets/Asset Store/GreenForest*
 /Assets/_TerrainAutoUpgrade*
