@@ -35,6 +35,7 @@ ExportedObj/
 *.csproj
 *.unityproj
 *.sln
+*.slnx
 *.suo
 *.tmp
 *.user
@@ -64,6 +65,7 @@ sysinfo.txt
 crashlytics-build.properties
 
 .vscode
+/UserSettings/Layouts/
 
 /Assets/Asset Store/GreenForest*
 /Assets/_TerrainAutoUpgrade*

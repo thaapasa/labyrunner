@@ -1,5 +1,6 @@
 {
-    "name": "PlayerInputActions",
+    "version": 1,
+    "name": "GameInputActions",
     "maps": [
         {
             "name": "Gameplay",
