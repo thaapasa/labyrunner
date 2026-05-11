@@ -13,6 +13,7 @@ public class GhostHit : MonoBehaviour
   public float deathEffectDurationSeconds = 2f;
 
   private Renderer ghostRenderer;
+  private Renderer[] ghostRenderers;
   private ParticleSystem deathPs;
   private AudioSource deathSource;
 
@@ -20,7 +21,8 @@ public class GhostHit : MonoBehaviour
 
   void Start()
   {
-    ghostRenderer = GetComponentInChildren<Renderer>();
+    ghostRenderers = GetComponentsInChildren<Renderer>();
+    ghostRenderer = ghostRenderers.Length > 0 ? ghostRenderers[0] : null;
     deathPs = GetComponentInChildren<ParticleSystem>();
     shaderProperty = Shader.PropertyToID("_cutoff");
     deathSource = GetComponent<AudioSource>();
@@ -34,8 +36,9 @@ public class GhostHit : MonoBehaviour
       float dissolved = deathTicker / deathDurationSecs;
       float cutoffValue = Mathf.Min(deathEffectCurve.Evaluate(dissolved), 1f);
       ghostRenderer.material.SetFloat(shaderProperty, cutoffValue);
-      if (deathTicker >= deathDurationSecs) {
+      if (deathTicker >= deathDurationSecs && !hasDied) {
         hasDied = true;
+        foreach (Renderer r in ghostRenderers) { r.enabled = false; }
       }
     }
   }
