@@ -77,7 +77,7 @@ public class GhostMover : MonoBehaviour
     }
 
     transform.position = transform.position + moveVectors[(int)direction] * moveNow;
-    transform.rotation.SetLookRotation(moveVectors[(int)direction]);
+    transform.rotation = Quaternion.LookRotation(moveVectors[(int)direction]);
     moveLeft -= moveNow;
 
   }
