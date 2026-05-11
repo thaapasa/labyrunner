@@ -31,7 +31,9 @@ public class TeleportEffect : MonoBehaviour
 
   void Start()
   {
-    player = GameObject.Find("Player");
+    teleporting = false;
+    settingUp = false;
+    player = PlayerControl.GetPlayer();
     controller = player.GetComponent<CharacterController>();
     shaderProperty = Shader.PropertyToID("_cutoff");
     renderers = GetComponentsInChildren<Renderer>();

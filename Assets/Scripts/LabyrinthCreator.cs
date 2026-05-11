@@ -67,11 +67,12 @@ class LabyrinthCreator
 
   private void shortenPath(int c, int parent, int[] rooms)
   {
-    int next = rooms[c];
-    if (next != -1)
+    while (true)
     {
+      int next = rooms[c];
+      if (next == -1) { return; }
       rooms[c] = parent;
-      shortenPath(next, parent, rooms);
+      c = next;
     }
   }
 
@@ -82,8 +83,8 @@ class LabyrinthCreator
 
   private int findRoot(int c, int[] rooms)
   {
-    if (rooms[c] == -1) { return c; }
-    else { return findRoot(rooms[c], rooms); }
+    while (rooms[c] != -1) { c = rooms[c]; }
+    return c;
   }
 
 

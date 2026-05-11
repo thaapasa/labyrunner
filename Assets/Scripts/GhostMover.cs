@@ -6,7 +6,6 @@ public class GhostMover : MonoBehaviour
 {
   public float wallWidth = 4.0f;
   public float speed = 1.0f;
-  public GameObject level;
 
   private Direction direction = Direction.NORTH;
   private float moveLeft;
@@ -26,8 +25,7 @@ public class GhostMover : MonoBehaviour
   void Start()
   {
     strategy = createMoveStrategy();
-    level = GameObject.Find("Level");
-    levelScript = level.gameObject.GetComponent<CreateLevel>();
+    levelScript = CreateLevel.Instance;
   }
 
   private MoveStrategy createMoveStrategy()
@@ -40,6 +38,7 @@ public class GhostMover : MonoBehaviour
 
   private void newTarget()
   {
+    if (levelScript == null) { return; }
     Labyrinth lab = levelScript.labyrinth;
     if (lab == null || !lab.initialized)
     {

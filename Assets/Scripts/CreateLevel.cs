@@ -46,6 +46,8 @@ public class CreateLevel : MonoBehaviour
   public static int level = 1;
   public static int healthAtStart = 3;
 
+  public static CreateLevel Instance { get; private set; }
+
   // Wall to: SOUTH, WEST, NORTH, EAST
   // Is pointing: NORTH, EAST, SOUTH, WEST
   private Vector3[] directionVectors = new Vector3[] {
@@ -85,7 +87,13 @@ public class CreateLevel : MonoBehaviour
 
   private void Awake()
   {
+    Instance = this;
     inputActions = new GameInputActions();
+  }
+
+  private void OnDestroy()
+  {
+    if (Instance == this) { Instance = null; }
   }
 
   public void OnNewGame()
