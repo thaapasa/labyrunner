@@ -14,6 +14,8 @@ public class GhostHit : MonoBehaviour
 
   private Renderer ghostRenderer;
   private Renderer[] ghostRenderers;
+  private Transform[] rendererTransforms;
+  private Vector3[] rendererInitialScales;
   private ParticleSystem deathPs;
   private AudioSource deathSource;
 
@@ -23,6 +25,13 @@ public class GhostHit : MonoBehaviour
   {
     ghostRenderers = GetComponentsInChildren<Renderer>();
     ghostRenderer = ghostRenderers.Length > 0 ? ghostRenderers[0] : null;
+    rendererTransforms = new Transform[ghostRenderers.Length];
+    rendererInitialScales = new Vector3[ghostRenderers.Length];
+    for (int i = 0; i < ghostRenderers.Length; ++i)
+    {
+      rendererTransforms[i] = ghostRenderers[i].transform;
+      rendererInitialScales[i] = rendererTransforms[i].localScale;
+    }
     deathPs = GetComponentInChildren<ParticleSystem>();
     shaderProperty = Shader.PropertyToID("_cutoff");
     deathSource = GetComponent<AudioSource>();
@@ -33,9 +42,14 @@ public class GhostHit : MonoBehaviour
     if (hasBeenHit)
     {
       deathTicker += Time.deltaTime;
-      float dissolved = deathTicker / deathDurationSecs;
+      float dissolved = Mathf.Clamp01(deathTicker / deathDurationSecs);
       float cutoffValue = Mathf.Min(deathEffectCurve.Evaluate(dissolved), 1f);
       ghostRenderer.material.SetFloat(shaderProperty, cutoffValue);
+      float scaleFactor = 1f - dissolved;
+      for (int i = 0; i < rendererTransforms.Length; ++i)
+      {
+        rendererTransforms[i].localScale = rendererInitialScales[i] * scaleFactor;
+      }
       if (deathTicker >= deathDurationSecs && !hasDied) {
         hasDied = true;
         foreach (Renderer r in ghostRenderers) { r.enabled = false; }
